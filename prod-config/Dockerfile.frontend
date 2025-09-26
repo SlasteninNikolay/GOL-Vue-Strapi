@@ -13,6 +13,8 @@ ENV VITE_API_URL=${VITE_API_URL}
 ENV VITE_BACKEND_URL=${VITE_BACKEND_URL}
 ENV VITE_TOKEN=${VITE_TOKEN}
 
+ENV NODE_OPTIONS=--max-old-space-size=2048
+
 COPY package.json package-lock.json ./
 RUN npm install
 
