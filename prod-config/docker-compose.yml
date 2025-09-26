@@ -46,9 +46,9 @@ services:
       dockerfile: ../prod-config/Dockerfile.frontend
       args:
         NODE_ENV: ${NODE_ENV}
-        VITE_API_URL: http://localhost:1337
-        VITE_BACKEND_URL: http://localhost:1337/api
-        VITE_TOKEN: 934373abb10cfef6c092669619b1e4d1edf99ea6953936634d3c1a51461e4d15b2b38393c2f278088d5e152fca7159bbb55b975bebf982062328cd24a018fda0385d3c9e4e7021545af4e57c80462547bb5991c76d7314f12587e75d1bf84e85520eecc9118fce3ee65bae5554f8155ff22c3cbc843319d51987ba77ca2b4e18
+        VITE_API_URL: ${STRAPI_API_URL}
+        VITE_BACKEND_URL: ${STRAPI_URL}
+        VITE_TOKEN: ${STRAPI_TOKEN}
     # Для Portainer (убрать если используется .env)
     env_file:
       - stack.env
