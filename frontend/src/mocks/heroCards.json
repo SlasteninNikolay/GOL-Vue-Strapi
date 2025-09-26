@@ -1,0 +1,26 @@
+[
+  {
+    "imageAlt": "С 1 по 31 июля фестиваль завтраков BreakFest",
+    "imageSrc": "/images/hero/hero-1.jpg",
+    "imageSrcSet": "/images/hero/hero-1-992.webp 992w, /images/hero/hero-1-1460w.jpg 1460w, /images/hero/hero-1-1800w.jpg 1800w",
+    "title": "LEGENDA Ust-Labinsk",
+    "description": "96 номеров, 2 ресторана, 2 бара и конференц-зал",
+    "url": "/"
+  },
+  {
+    "imageAlt": "С 1 по 31 июля фестиваль завтраков BreakFest",
+    "imageSrc": "/images/hero/hero-2.jpg",
+    "imageSrcSet": "/images/hero/hero-1-992w.jpg 992w, /images/hero/hero-1-1460w.jpg 1460w, /images/hero/hero-1-1800w.jpg 1800w",
+    "title": "LEGENDA Ust-Labinsk",
+    "description": "96 номеров, 2 ресторана, 2 бара и конференц-зал",
+    "url": "/"
+  },
+  {
+    "imageAlt": "С 1 по 31 июля фестиваль завтраков BreakFest",
+    "imageSrc": "/images/hero/hero-3.jpg",
+    "imageSrcSet": "/images/hero/hero-1-992w.jpg 992w, /images/hero/hero-1-1460w.jpg 1460w, /images/hero/hero-1-1800w.jpg 1800w",
+    "title": "LEGENDA Ust-Labinsk",
+    "description": "96 номеров, 2 ресторана, 2 бара и конференц-зал",
+    "url": "/"
+  }
+]

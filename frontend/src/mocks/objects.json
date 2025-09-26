@@ -1,0 +1,155 @@
+[
+  {
+    "id": 1,
+    "title": "LEGENDA АЭРО ОТЕЛЬ",
+    "slug": "legenda-aero-otel",
+    "meta": {
+      "title": "LEGENDA АЭРО ОТЕЛЬ",
+      "description": "",
+      "keywords": ""
+    },
+    "categoryId": 2,
+    "location": "г. Красноярск",
+    "type": "Аэроотель",
+    "rating": 4.7,
+    "price": 3200,
+    "images": ["/images/objects/img-1.jpg"],
+    "pdfUrl": ""
+  },
+  {
+    "id": 2,
+    "title": "ГОРА СОБОЛИНАЯ",
+    "slug": "gora-sobolinaya",
+    "meta": {
+      "title": "ГОРА СОБОЛИНАЯ",
+      "description": "",
+      "keywords": ""
+    },
+    "categoryId": 4,
+    "location": "г. Байкальск",
+    "type": "Горнолыжный курорт",
+    "rating": 4.8,
+    "price": 2500,
+    "images": ["/images/objects/img-2.jpg"],
+    "pdfUrl":  ""
+  },
+  {
+    "id": 3,
+    "title": "БУРДУГУЗ",
+    "slug": "burduguz",
+    "meta": {
+      "title": "БУРДУГУЗ",
+      "description": "",
+      "keywords": ""
+    },
+    "categoryId": 6,
+    "location": "пос. Бурдугуз",
+    "type": "Парк-отель",
+    "rating": 4.5,
+    "price": 2100,
+    "images": ["/images/objects/img-3.jpg"],
+    "pdfUrl":  ""
+  },
+  {
+    "id": 4,
+    "title": "ЭКО-КУРОРТ ГЛАДЕНЬКАЯ",
+    "slug": "eko-kurort-gladenkaya",
+    "meta": {
+      "title": "ЭКО-КУРОРТ ГЛАДЕНЬКАЯ",
+      "description": "",
+      "keywords": ""
+    },
+    "categoryId": 2,
+    "location": "ур. Бабик",
+    "type": "Отель",
+    "rating": 4.6,
+    "price": 2700,
+    "images": ["/images/objects/img-1.jpg"],
+    "pdfUrl":  ""
+  },
+  {
+    "id": 5,
+    "title": "СИБЭКСПОЦЕНТР",
+    "slug": "sibexpocenter",
+    "meta": {
+      "title": "СИБЭКСПОЦЕНТР",
+      "description": "",
+      "keywords": ""
+    },
+    "categoryId": 4,
+    "location": "г. Байкальск",
+    "type": "Горнолыжный курорт",
+    "rating": 4.4,
+    "price": 1800,
+    "images": ["/images/objects/img-1.jpg"],
+    "pdfUrl":  ""
+  },
+  {
+    "id": 6,
+    "title": "LEGENDA UST-LABINSK",
+    "slug": "legenda-ust-labinsk",
+    "meta": {
+      "title": "LEGENDA UST-LABINSK",
+      "description": "",
+      "keywords": ""
+    },
+    "categoryId": 2,
+    "location": "г. Усть-Лабинск",
+    "type": "Отель",
+    "rating": 4.7,
+    "price": 3100,
+    "images": ["/images/objects/img-1.jpg"],
+    "pdfUrl":  ""
+  },
+  {
+    "id": 7,
+    "title": "ГОСТИНИЦА ВОЛНА",
+    "slug": "gostinitsa-volna",
+    "meta": {
+      "title": "ГОСТИНИЦА ВОЛНА",
+      "description": "",
+      "keywords": ""
+    },
+    "categoryId": 1,
+    "location": "г. Нижний-Новгород",
+    "type": "Гостиница",
+    "rating": 4.3,
+    "price": 2200,
+    "images": ["/images/objects/img-1.jpg"],
+    "pdfUrl":  ""
+  },
+  {
+    "id": 8,
+    "title": "ГРАНД БАЙКАЛ",
+    "slug": "grand-baikal",
+    "meta": {
+      "title": "ГРАНД БАЙКАЛ",
+      "description": "",
+      "keywords": ""
+    },
+    "categoryId": 2,
+    "location": "г. Байкальск",
+    "type": "Отель",
+    "rating": 4.9,
+    "price": 3500,
+    "images": ["/images/objects/img-1.jpg"],
+    "pdfUrl":  ""
+  },
+  {
+    "id": 9,
+    "title": "Сретенская",
+    "slug": "sretenskaya",
+    "meta": {
+      "title": "Сретенская",
+      "description": "",
+      "keywords": ""
+    },
+    "categoryId": 1,
+    "location": "г. Москва",
+    "type": "Отель",
+    "rating": 4.9,
+    "price": 3500,
+    "images": ["/images/objects/img-1.jpg"],
+    "pdfUrl":  ""
+  }
+]

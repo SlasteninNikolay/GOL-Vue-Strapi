@@ -1,0 +1,97 @@
+@use 'helpers/constants' as *;
+@use 'helpers/functions' as *;
+
+:root {
+  --color-primary: #244c60;
+  --color-primary-30: #338ba7; /* 30% primary, 70% white */
+  --color-primary-40: #1a7c9c; /* 40% primary, 60% white */
+  --color-primary-50: #006d91; /* 50% primary, 50% white */
+  --color-primary-60: #005f86; /* 60% primary, 40% white */
+  --color-primary-70: #00517b; /* 70% primary, 30% white */
+  --color-primary-80: #004370; /* 80% primary, 20% white */
+  --color-primary-90: #003565; /* 90% primary, 10% white */
+  --color-primary-dark: #00275a; /* Darker shade */
+
+  --primary-opacity-10: rgba(36, 76, 96, 0.1);
+  --primary-opacity-30: rgba(36, 76, 96, 0.3);
+  --primary-opacity-50: rgba(36, 76, 96, 0.5);
+  --primary-opacity-60: rgba(36, 76, 96, 0.6);
+  --primary-opacity-90: rgba(36, 76, 96, 0.9);
+
+  --color-white: #ffffff;
+  --white-opacity-90: rgba(255, 255, 255, 0.9);
+  --white-opacity-80: rgba(255, 255, 255, 0.8);
+  --white-opacity-60: rgba(255, 255, 255, 0.6);
+  --white-opacity-30: rgba(255, 255, 255, 0.3);
+  --white-opacity-10: rgba(255, 255, 255, 0.1);
+
+  --color-black: #5a5a5a;
+  --color-gray: #eeeeee;
+  --color-gray-light: #fafafa;
+
+  --color-black-06: #0f0f0f;
+  --color-black-08: #141414;
+  --color-black-10: #1a1a1a;
+  --color-black-12: #1f1f1f;
+  --color-black-15: #262626;
+  --color-black-20: #333333;
+  --color-black-25: #404040;
+  --color-black-30: #4c4c4c;
+
+  --black-opacity-10: rgba(0, 0, 0, 0.1);
+  --black-opacity-15: rgba(0, 0, 0, 0.15);
+  --black-opacity-20: rgba(0, 0, 0, 0.2);
+  --black-opacity-30: rgba(0, 0, 0, 0.3);
+  --black-opacity-50: rgba(0, 0, 0, 0.5);
+  --black-opacity-60: rgba(0, 0, 0, 0.6);
+
+  --color-gray-60: #999999;
+  --color-gray-65: #a6a6a6;
+  --color-gray-70: #b3b3b3;
+  --color-gray-75: #bfbfbf;
+  --color-gray-90: #e4e4e7;
+  --color-gray-95: #f1f1f3;
+  --color-gray-97: #f7f7f8;
+  --color-gray-99: #fcfcfd;
+
+  --bottom-dark-gradient: linear-gradient(
+    to bottom,
+    var(--primary-opacity-10),
+    var(--primary-opacity-10)
+  );
+  --left-dark-gradient: linear-gradient(to left, var(--black-opacity-10), var(--black-opacity-30));
+  --gray-gradient: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(218, 218, 218, 0.12) 61.54%
+  );
+
+  --border: var(--border-width-s) solid var(--color-black-15);
+
+  --border-width-l: 4px;
+  --border-width-m: 3px;
+  --border-width-s: 0.75px;
+
+  --border-radius-l: 12px;
+  --border-radius-m: 10px;
+  --border-radius-s: 8px;
+  --border-radius-xs: 6px;
+  --border-radius-xxs: 5px;
+  --border-radius-xxxs: 4px;
+
+  --font-family-base: Montserrat;
+
+  --container-width: #{fluid-to-laptop($container-desktop-width, $container-laptop-width)};
+
+  --container-padding-x: 25px;
+  --container-padding-y: #{fluid-to-laptop(50, 30)};
+
+  --section-padding-y: #{fluid-to-laptop(60, 24)};
+
+  --content-padding-y: #{fluid-to-laptop(30, 15)};
+  --gap: #{fluid-to-laptop(30, 15)};
+
+  --transition-duration: 0.2s;
+  --transition-duration-longer: 0.4s;
+  --transition-duration-eternity: 0.8s;
+}

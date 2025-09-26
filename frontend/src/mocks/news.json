@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "imageAlt": "Грандиозное открытие LEGENDA Ust-Labinsk",
+    "imageSrc": "/images/news/news-1.jpg",
+    "title": "Грандиозное открытие LEGENDA Ust-Labinsk",
+    "slug": "news-1"
+  },
+  {
+    "id":  2,
+    "imageAlt": "Открытие ресторана ULABI",
+    "imageSrc": "/images/news/news-2.jpg",
+    "title": "Открытие ресторана ULABI",
+    "slug": "news-2"
+  },
+  {
+    "id":  3,
+    "imageAlt": "Ресторан legenda открыл свои двери для гостей",
+    "imageSrc": "/images/news/news-3.jpg",
+    "title": "Ресторан legenda открыл свои двери для гостей",
+    "slug": "news-3"
+  },
+  {
+    "id":  4,
+    "imageAlt": "Breakfest фестиваль",
+    "imageSrc": "/images/news/news-4.jpg",
+    "title": "Breakfest фестиваль",
+    "slug": "news-4"
+  }
+]

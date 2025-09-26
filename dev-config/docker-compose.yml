@@ -1,0 +1,87 @@
+name: GOL-VUE-Strapi-dev
+
+services:
+  frontend:
+    platform: linux/amd64
+    build:
+      context: ../frontend
+      dockerfile: ../dev-config/Dockerfile.frontend
+    command: sh -c "npm ci && npm run dev"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ../frontend:/usr/app
+      - frontend_node_modules:/usr/app/node_modules
+    environment:
+      PORT: ${VUE_PORT}
+      HOST: ${HOST}
+      API_TOKEN: ${STRAPI_TOKEN}
+      API_URL: ${STRAPI_URL}
+      NODE_ENV: ${NODE_ENV}
+      CHOKIDAR_USEPOLLING: true
+      VITE_BACKEND_URL: ${STRAPI_URL}
+      VITE_API_URL: ${STRAPI_API_URL}
+      VITE_TOKEN: ${STRAPI_TOKEN}
+    networks:
+      - strapi
+
+  cms:
+    platform: linux/amd64
+    build:
+      context: ../cms
+      dockerfile: ../dev-config/Dockerfile.cms
+    ports:
+      - "1337:1337"
+    volumes:
+      - ../cms:/usr/app
+      - cms_node_modules:/usr/app/node_modules
+      - strapi_data:/usr/app/.tmp/data
+    environment:
+      # Strapi секреты
+      APP_KEYS: ${APP_KEYS}
+      API_TOKEN_SALT: ${API_TOKEN_SALT}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
+
+      # Настройки приложения
+      NODE_ENV: ${NODE_ENV}
+
+      # Настройки SQLite
+      DATABASE_CLIENT: sqlite
+      DATABASE_FILENAME: .tmp/data.db
+      DATABASE_SSL: false
+
+      # Настройки MySQL
+      # DATABASE_HOST: db
+      # DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      # DATABASE_USERNAME: ${DATABASE_USERNAME}
+      # DATABASE_NAME: ${DATABASE_NAME}
+      # DATABASE_CLIENT: mysql
+      # DATABASE_PORT: 3306
+      # DATABASE_SSL: "false"
+    networks:
+      - strapi
+
+  # db: 
+  #   image: mysql:8.0
+  #   restart: always
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_USER: ${DATABASE_USERNAME}
+  #     MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+  #     MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+  #     MYSQL_DATABASE: ${DATABASE_NAME}
+  #   volumes:
+  #     - db:/var/lib/mysql
+  #   networks:
+  #     - strapi
+
+networks:
+  strapi:
+
+volumes:
+  # db:
+  strapi_data:
+  frontend_node_modules:
+  cms_node_modules:

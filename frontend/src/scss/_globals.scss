@@ -1,0 +1,295 @@
+
+@use 'helpers/constants' as *;
+@use 'helpers/mixins' as *;
+@use 'helpers/media' as *;
+
+html, body {
+  scroll-behavior: auto;
+}
+
+html {
+  &.is-lock {
+    overflow: hidden;
+  }
+}
+
+body {
+  min-height: 100vh;
+
+  @include fluid-text(14, 12);
+  font-weight: 300;
+  letter-spacing: 1px;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family-base), 'Helvetica Neue', Arial, sans-serif;
+  color: var(--color-black);
+  background-color: var(--color-white);
+
+  &.menu-is-open {
+    overflow: hidden;
+    .navbar {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    &.navbar-is-shown {
+      .navbar {
+        opacity: 1;
+        transform: translateY(0);
+        z-index: 9999;
+      }
+    }
+  }
+
+  &.navbar-is-hidden {
+    .navbar {
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+  }
+
+  &.navbar-is-fixed {
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      opacity: 1;
+      transform: translateY(0);
+      z-index: 9999;
+
+      &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 1px;
+        background-color: var(--color-gray);
+      }
+    }
+  }
+
+  &.no-scroll::-webkit-scrollbar {
+    width: 0 !important;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  color: var(--color-primary);
+}
+
+.h0 {
+  @include fluid-text(64, 32);
+}
+
+h1, .h1 {
+  @include fluid-text(42, 24);
+
+  font-weight: 400;
+}
+
+h2, .h2 {
+  @include fluid-text(32, 18);
+
+  font-weight: 400;
+}
+
+h3, .h3 {
+  @include fluid-text(24, 16);
+
+  font-weight: 500;
+}
+
+h4, .h4 {
+  @include fluid-text(20, 14);
+
+  font-weight: 500;
+}
+
+h5, .h5 {
+  @include fluid-text(18, 15);
+
+  font-weight: 500;
+}
+
+h6, .h6 {
+  @include fluid-text(16, 14);
+
+  font-weight: 500;
+}
+
+b {
+  font-weight: 600;
+}
+
+a,
+button,
+label,
+input,
+textarea,
+select,
+svg * {
+  transition-duration: var(--transition-duration);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  @include hover {
+    color: var(--color-red-45);
+  }
+
+  &[class] {
+    text-decoration: none;
+  }
+}
+
+:focus-visible {
+  @include focus-visible;
+}
+
+.link {
+  position: relative;
+
+  &::after {
+    content: '';
+    width: 0;
+    height: 2px;
+    background-color: var(--color-white);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transition: var(--transition-duration-longer);
+  }
+
+  &:has(.is-active) {
+    a::after {
+      width: 100%;
+    }
+  }
+
+  @include hover(false) {
+    &::after {
+      width: 100%;
+    }
+  }
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--color-white);
+  width: 40px;
+  height: 40px;
+  background: rgba(0,0,0,.1);
+  border-radius: 50%;
+}
+
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  margin: 5px 0;
+  background-color: var(--color-gray-90) !important; /* Цвет неактивных элементов */
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &.swiper-pagination-bullet-active {
+    background-color: var(--color-white) !important; /* Цвет активного элемента */
+  }
+}
+
+.overlay-enter-active, .overlay-leave-active {
+  transition: opacity 0.5s;
+}
+.overlay-enter, .overlay-leave-to {
+  opacity: 0;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-primary);
+  z-index: 9999;
+  pointer-events: none;
+
+  &__inner {
+    width: 75%;
+    height: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    @include flex-center;
+    gap: 24px;
+  }
+
+  &__logo {
+    width: 152px;
+    height: 32px;
+  }
+
+  &__loading-bar {
+    height: 1px;
+    background-color: var(--white-opacity-30);
+    transition: width 0.4s ease;
+  }
+}
+
+.swiper-slide {
+  height: auto !important;
+}
+
+._pattern {
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 280px;
+    height: 100%;
+    background: url('/images/pattern-blue.svg') no-repeat;
+    background-size: contain;
+    pointer-events: none;
+    z-index: -1;
+    transition-duration: var(--transition-duration);
+
+    @include tablet {
+      left: initial;
+      right: 0;
+      transform: scaleX(-1);
+    }
+
+    @include mobile {
+      display: none;
+    }
+  }
+}
+
+

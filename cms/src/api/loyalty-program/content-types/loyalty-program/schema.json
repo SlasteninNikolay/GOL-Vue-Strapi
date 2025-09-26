@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "loyalty_programs",
+  "info": {
+    "singularName": "loyalty-program",
+    "pluralName": "loyalty-programs",
+    "displayName": "Программа лояльности"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "required": true
+    },
+    "subtitle": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "slug": {
+      "type": "uid",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "required": true
+    },
+    "program": {
+      "type": "component",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "components.program",
+      "repeatable": true,
+      "required": true
+    },
+    "objects": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::object.object",
+      "mappedBy": "loyalty_program"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Отели 3*",
+    "slug": "hotels-3",
+    "icon": "hotels-3"
+  },
+  {
+    "id": 2,
+    "name": "Отели 4*",
+    "slug": "hotels-4",
+    "icon": "hotels-4"
+  },
+  {
+    "id": 3,
+    "name": "Рестораны",
+    "slug": "restaurants",
+    "icon": "restaurants"
+  },
+  {
+    "id": 4,
+    "name": "Курорты",
+    "slug": "ski",
+    "icon": "ski"
+  },
+  {
+    "id": 5,
+    "name": "Санатории",
+    "slug": "sanatorium",
+    "icon": "sanatorium"
+  },
+  {
+    "id": 6,
+    "name": "Другое",
+    "slug": "others",
+    "icon": "others"
+  }
+]
