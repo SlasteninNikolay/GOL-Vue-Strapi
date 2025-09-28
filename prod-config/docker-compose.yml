@@ -9,7 +9,7 @@ services:
       - "1337:1337"
     volumes:
       - ../cms/public/uploads:/usr/app/public/uploads
-#      - ../cms/.tmp:/usr/app/.tmp
+      - ../cms/.tmp:/usr/app/.tmp
     restart: unless-stopped
     networks:
       - golnet
