@@ -17,6 +17,8 @@ ENV PATH /usr/app/node_modules/.bin:$PATH
 
 COPY . .
 
+RUN yarn build
+
 RUN chown -R node:node /usr/app
 RUN mkdir -p /usr/app/.tmp && chown -R node:node /usr/app/.tmp
 USER node
@@ -24,3 +26,5 @@ USER node
 
 
 EXPOSE 1337
+
+CMD ["yarn", "start"]
