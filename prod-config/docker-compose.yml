@@ -9,7 +9,7 @@ services:
       - "1337:1337"
     volumes:
       - ../cms/public/uploads:/usr/app/public/uploads
-      - ../cms/.tmp:/usr/app/.tmp
+#      - ../cms/.tmp:/usr/app/.tmp
     restart: unless-stopped
     networks:
       - golnet
@@ -27,9 +27,9 @@ services:
       NODE_ENV: ${NODE_ENV}
 
       # Настройки SQLite
-      DATABASE_CLIENT: sqlite
-      DATABASE_FILENAME: .tmp/data.db
-      DATABASE_SSL: false
+      DATABASE_CLIENT: ${DATABASE_CLIENT}
+      DATABASE_FILENAME: ${DATABASE_FILENAME}
+      DATABASE_SSL: ${DATABASE_SSL}
 
       # Настройки MySQL
       # DATABASE_HOST: db
