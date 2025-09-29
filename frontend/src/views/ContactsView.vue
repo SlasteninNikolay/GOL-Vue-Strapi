@@ -104,7 +104,6 @@ const fetchObjects = async () => {
       headers: { Authorization: `Bearer ${TOKEN}` },
     })
     objectsData.value = requestObjects.data.data
-    console.log(objectsData.value[0].title)
   } catch (e) {
     error.value = e
   } finally {

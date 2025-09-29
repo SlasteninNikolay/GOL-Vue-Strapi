@@ -51,7 +51,7 @@ function processDirectory(directory) {
           if (err) {
             console.error(err)
           } else {
-            console.log(`Created default: ${defaultOutputFile}`)
+            console.log('Successfully')
           }
         })
 
@@ -65,7 +65,7 @@ function processDirectory(directory) {
             if (err) {
               console.error(err)
             } else {
-              console.log(`Created: ${outputFile}`)
+              console.log('Successfully resized')
             }
           })
       })

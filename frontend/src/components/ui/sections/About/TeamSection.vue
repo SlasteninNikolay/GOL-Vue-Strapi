@@ -12,9 +12,6 @@ onMounted(async () => {
   await query(`teams?sort=order&populate=*`)
 })
 
-console.log(teamData)
-
-
 </script>
 <template>
   <AppSection class="team-section" title="Лица компании" title-color="#FFF" v-appear>

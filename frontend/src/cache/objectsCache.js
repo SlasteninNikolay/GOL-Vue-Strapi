@@ -30,8 +30,6 @@ export const preloadObjects = async () => {
       objectsCache.set(object.slug, object.title)
     })
 
-    console.log('Preloaded objects:', objectsCache.size)
-
     // Теперь для каждого объекта загружаем его комнаты
     const objectSlugs = Array.from(objectsCache.keys())
 
@@ -53,8 +51,6 @@ export const preloadObjects = async () => {
         console.error(`Error loading rooms for object ${slug}:`, error)
       }
     }
-
-    console.log('Preloaded rooms:', roomsCache.size)
 
   } catch (error) {
     console.error('Error preloading objects:', error)

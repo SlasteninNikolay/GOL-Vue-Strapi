@@ -23,7 +23,6 @@ const fetchNews = async () => {
       },
     )
     news.value = response.data.data
-    console.log(news.value)
   } catch (e) {
     error.value = e
   } finally {

@@ -9,8 +9,6 @@ const props = defineProps({
   },
 })
 
-console.log(props.object)
-
 // const img = computed(() => props.object.images[0] || null)
 // const alt = computed(() => props.object.title || 'Объект')
 </script>

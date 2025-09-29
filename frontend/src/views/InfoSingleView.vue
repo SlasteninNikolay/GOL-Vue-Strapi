@@ -25,8 +25,6 @@ const fetchPage = async (slug) => {
 
     pageData.value = request.data.data[0] || null
 
-    console.log(pageData.value)
-
   } catch (e) {
     error.value = e
   } finally {

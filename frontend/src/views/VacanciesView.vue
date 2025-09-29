@@ -31,7 +31,6 @@ const fetchData = async () => {
         content: item.description,
       }
     })
-    console.log('Обработанные вакансии:', vacanciesData.value)
   } catch (e) {
     error.value = e
     console.error('Ошибка при загрузке:', e)

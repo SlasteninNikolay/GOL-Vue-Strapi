@@ -20,8 +20,6 @@ const fetchSystem = async () => {
 
     systemData.value = request.data.data || null
 
-    console.log(systemData.value)
-
   } catch (e) {
     error.value = e
   } finally {

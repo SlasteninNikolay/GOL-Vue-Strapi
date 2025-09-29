@@ -68,8 +68,6 @@ const onSubmit = async (values) => {
       }
     );
 
-    console.log('Успешный ответ:', response.data);
-
     if (response.data.data) {
       message.value = 'Сообщение успешно отправлено!';
       messageType.value = 'success';

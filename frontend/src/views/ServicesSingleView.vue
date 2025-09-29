@@ -88,7 +88,6 @@ const fetchRelatedServices = async () => {
       }
     )
     relatedServices.value = response.data.data
-    console.log(relatedServices.value)
   } catch (e) {
     console.error('Ошибка при загрузке других услуг:', e)
   }

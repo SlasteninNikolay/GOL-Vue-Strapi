@@ -26,7 +26,6 @@ const fetchServices = async () => {
       }
     )
     services.value = response.data.data
-    console.log(services.value)
   } catch (e) {
     error.value = e
     console.error('Ошибка при загрузке услуг:', e)

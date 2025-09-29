@@ -48,8 +48,6 @@ const fetchRoomBySlug = async (slug) => {
 
     roomData.value = request.data.data[0] || null
 
-    console.log(roomData.value)
-
   } catch (e) {
     error.value = e
   } finally {

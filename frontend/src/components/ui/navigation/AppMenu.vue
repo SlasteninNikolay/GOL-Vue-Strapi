@@ -33,8 +33,6 @@ const fetchPromo = async () => {
       }
     )
 
-    console.log('Новости', response.data)
-
     promoCards.value = response.data.data
   } catch (e) {
     error.value = e

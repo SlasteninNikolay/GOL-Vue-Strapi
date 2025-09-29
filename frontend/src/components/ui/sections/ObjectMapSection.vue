@@ -68,7 +68,6 @@ const categories = [
   ]
 
 const navigateToCategory = (category) => {
-  console.log('Navigating to category:', category.slug)
   try {
     router.push({
       name: 'ObjectsView',
