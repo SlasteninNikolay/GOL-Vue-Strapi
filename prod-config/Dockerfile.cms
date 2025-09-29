@@ -21,7 +21,7 @@ RUN yarn build
 
 RUN chown -R node:node /usr/app
 RUN mkdir -p /usr/app/.tmp && chown -R node:node /usr/app/.tmp
-USER node
+USER root
 
 EXPOSE 1337
 
