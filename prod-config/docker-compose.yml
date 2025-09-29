@@ -5,9 +5,6 @@ services:
     build:
       context: ../cms
       dockerfile: ../prod-config/Dockerfile.cms
-    volumes:
-      - ../cms/public/uploads:/usr/app/public/uploads
-      - ../cms/.tmp:/usr/app/.tmp
     restart: unless-stopped
     networks:
       - golnet
@@ -21,6 +18,7 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
       JWT_SECRET: ${JWT_SECRET}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
 
       # Настройки приложения
       NODE_ENV: ${NODE_ENV}
