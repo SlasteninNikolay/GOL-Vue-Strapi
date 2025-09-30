@@ -6,8 +6,7 @@ const props = defineProps({
   object: {
     type: Object,
     required: true,
-  },
-  url: String,
+  }
 })
 
 const img = computed(() => props.object.images[0] || null)
@@ -16,7 +15,7 @@ const title = computed(() => props.object.seo.Title || '')
 </script>
 
 <template>
-  <RouterLink class="promo-card" :to="url" @click="$emit('closeMenu')">
+  <RouterLink class="promo-card" :to="`/blog/${object?.slug}`" @click="$emit('closeMenu')">
     <figure class="promo-card__figure">
       <img
         class="promo-card__figure-image"
