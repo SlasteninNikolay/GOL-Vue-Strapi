@@ -20,7 +20,7 @@ const title = computed(() => props.object.seo.Title || '')
     <figure class="promo-card__figure">
       <img
         class="promo-card__figure-image"
-        :src="BACKEND_URL + (img.formats?.large?.url || img.url)"
+        :src="BACKEND_URL + (img?.formats?.large?.url || img?.url || '')"
         :alt="title"
         loading="lazy"
       />
