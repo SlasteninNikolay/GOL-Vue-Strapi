@@ -80,8 +80,8 @@ $RECYCLE.BIN/
 ssl
 .idea
 nbproject
-public/uploads/images/*
-public/uploads/video/*
+public/uploads/*
+!public/uploads/.gitkeep
 .tsbuildinfo
 .eslintcache
 
