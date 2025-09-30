@@ -101,6 +101,7 @@ onMounted(async () => {
   &__inner {
     display: flex;
     flex-wrap: wrap;
+    gap: 1rem;
     margin-bottom: 30px;
   }
 }
