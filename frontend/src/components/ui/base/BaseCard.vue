@@ -30,22 +30,22 @@ defineProps({
           <source v-if="img.url" :srcset="BACKEND_URL + img.url" media="(min-width: 1200px)" />
           <source
             v-if="img.formats?.large"
-            :srcset="BACKEND_URL + img.formats.large.url"
+            :srcset="BACKEND_URL + (img.formats.large.url || '')"
             media="(min-width: 992px)"
           />
           <source
             v-if="img.formats?.medium"
-            :srcset="BACKEND_URL + img.formats.medium.url"
+            :srcset="BACKEND_URL + (img.formats.medium.url || '')"
             media="(min-width: 768px)"
           />
           <source
             v-if="img.formats?.small"
-            :srcset="BACKEND_URL + img.formats.small.url"
+            :srcset="BACKEND_URL + (img.formats.small.url || '')"
             media="(min-width: 375px)"
           />
           <img
             class="card__figure-image"
-            :src="BACKEND_URL + (img.formats?.thumbnail?.url || img.url)"
+            :src="BACKEND_URL + (img.formats?.thumbnail?.url || img.url || '')"
             :alt="img.alternativeText"
             loading="lazy"
           />

@@ -12,11 +12,16 @@ defineProps({
 <template>
   <div class="hero-card">
     <picture class="hero-card__picture">
+      <source
+        v-if="image?.formats?.large?.url"
+        :srcset="BACKEND_URL + (image.formats.large.url || '')"
+        media="(max-width: 1024px)"
+      />
       <img
         class="hero-card__image"
-        :src="BACKEND_URL + image.url"
-        :alt="image?.alternativeText || 'Постер'"
-        loading="lazy"
+        :src="BACKEND_URL + (image?.url || '')"
+        :alt="image?.alternativeText || 'Фото объекта группы LEGENDA Hotels'"
+        loading="eager"
       />
     </picture>
     <div class="hero-card__content container">
