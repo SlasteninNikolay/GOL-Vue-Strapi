@@ -1,51 +1,37 @@
 <script setup>
 import BaseIcon from '@/components/ui/base/BaseIcon.vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation, Autoplay } from 'swiper/modules'
+import { Navigation, Autoplay, EffectFade } from 'swiper/modules'
 
 import 'swiper/css'
+import 'swiper/css/effect-fade';
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import MenuPromoCard from '@/components/features/MenuPromoCard.vue'
 import BaseButton from '@/components/ui/base/BaseButton.vue'
 import { useIsMobile } from '@/utils/useIsMobile.js'
-import axios from 'axios'
-import { API_URL, TOKEN } from '@/utils/constants.js'
 import { onMounted, ref } from 'vue'
 
 defineProps({
   isActive: Boolean,
 })
 
-// Получаем данные из Strapi
-const promoCards = ref([])
-const loading = ref(true)
-const error = ref(null)
+const isMobile = useIsMobile()
 
-const fetchPromo = async () => {
-  loading.value = true
+import { useStrapi } from '@/composables/useStrapi'
+
+const { data: promoCards, error, loading, query } = useStrapi()
+
+onMounted(async () => {
   try {
-    // Получаем объекты
-    const response = await axios.get(
-      `${API_URL}/articles?populate=*&filters[article_category][slug][$eq]=novosti&sort=publishedAt:desc&pagination[limit]=10`,
-      {
-        headers: { Authorization: `Bearer ${TOKEN}` },
-      }
-    )
-
-    promoCards.value = response.data.data
+    await query(`articles?populate=*&filters[article_category][slug][$eq]=novosti&sort=publishedAt:desc&pagination[limit]=5`);
   } catch (e) {
     error.value = e
   } finally {
     loading.value = false
   }
-}
-
-const isMobile = useIsMobile()
-
-onMounted(() => {
-  fetchPromo()
 })
+
 </script>
 
 <template>
@@ -90,11 +76,13 @@ onMounted(() => {
     <div v-if="!isMobile" class="menu__col">
       <Swiper
         class="menu__slider"
-        :modules="[Navigation, Autoplay]"
+        :modules="[Navigation, Autoplay, EffectFade]"
         :slides-per-view="1"
         :space-between="20"
         :autoplay="{ delay: 3000, disableOnInteraction: false }"
         :navigation="{ enabled: true, prevEl: '.menu__slider-prev', nextEl: '.menu__slider-next' }"
+        effect="fade"
+        :fade-effect="{ crossFade: true }"
       >
         <SwiperSlide class="menu__slider" v-for="(slide, idx) in promoCards" :key="idx">
           <MenuPromoCard :object="slide" @closeMenu="$emit('closeMenu')" />

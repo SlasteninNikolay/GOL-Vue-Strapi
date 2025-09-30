@@ -7,23 +7,25 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  url: String,
 })
 
-// const img = computed(() => props.object.images[0] || null)
-// const alt = computed(() => props.object.title || 'Объект')
+const img = computed(() => props.object.images[0] || null)
+const caption = computed(() => props.object.title || '')
+const title = computed(() => props.object.seo.Title || '')
 </script>
 
 <template>
   <RouterLink class="promo-card" :to="url" @click="$emit('closeMenu')">
-<!--    <figure class="promo-card__figure">-->
-<!--      <img-->
-<!--        class="promo-card__figure-image"-->
-<!--        :src="BACKEND_URL + (img.formats?.medium?.imageSrc || img.imageSrc)"-->
-<!--        :alt="alt"-->
-<!--        loading="lazy"-->
-<!--      />-->
-<!--      <figcaption class="promo-card__figure-caption">{{ imageCaption }}</figcaption>-->
-<!--    </figure>-->
+    <figure class="promo-card__figure">
+      <img
+        class="promo-card__figure-image"
+        :src="BACKEND_URL + (img.formats?.large?.url || img.url)"
+        :alt="title"
+        loading="lazy"
+      />
+      <figcaption class="promo-card__figure-caption">{{ caption }}</figcaption>
+    </figure>
   </RouterLink>
 </template>
 
@@ -57,6 +59,7 @@ const props = defineProps({
 
     &-caption {
       @include fluid-text(26, 18);
+      font-weight: 400;
 
       width: 100%;
       position: absolute;
@@ -67,6 +70,16 @@ const props = defineProps({
       background-color: transparent;
       padding: fluid(20, 10) fluid(40, 20);
       z-index: 2;
+
+      &:after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--bottom-dark-gradient);
+        z-index: 1;
+      }
     }
   }
 }

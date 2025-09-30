@@ -6,26 +6,28 @@ export const isMobile = (maxWidth = 992) => {
 }
 
 export const generateSrcSet = (imageSrc, imageFormat = 'webp', onlyDefault = false) => {
-  const sizes = IMAGE_SIZES
+  if (!imageSrc || typeof imageSrc !== 'string') return '';
+
+  const sizes = typeof IMAGE_SIZES !== 'undefined' ? IMAGE_SIZES : [320, 640, 960, 1200];
 
   // Извлекаем директорию
-  let match = imageSrc.match(/(.*\/)[^\/]+$/)
-  let directory = match ? match[1] : ''
+  const dirMatch = imageSrc.match(/(.*\/)[^\/]+$/);
+  const directory = dirMatch ? dirMatch[1] : '';
 
   // Извлекаем имя файла без расширения
-  match = imageSrc.match(/\/([^\/]+)\.[^\/]+$/)
-  let imageName = match ? match[1] : ''
+  const nameMatch = imageSrc.match(/\/([^\/]+)\.[^\/]+$/);
+  const imageName = nameMatch ? nameMatch[1] : '';
+
+  if (!imageName) return '';
 
   if (onlyDefault) {
-    return `${directory}${imageName}-default.${imageFormat}`
+    return `${directory}${imageName}-default.${imageFormat}`;
   }
 
   return sizes
-    .map((size) => {
-      return `${directory}${imageName}-${size}.${imageFormat} ${size}w`
-    })
-    .join(', ')
-}
+    .map((size) => `${directory}${imageName}-${size}.${imageFormat} ${size}w`)
+    .join(', ');
+};
 
 export const getAttrNameFromSelector = (attrSelector) => {
   return attrSelector.substring(1, attrSelector.length - 1)

@@ -3,6 +3,8 @@ import AppBreadcrumbs from '@/components/ui/navigation/AppBreadcrumbs.vue'
 </script>
 
 <template>
-  <AppBreadcrumbs />
-  <router-view />
+  <div>
+    <AppBreadcrumbs />
+    <router-view />
+  </div>
 </template>
