@@ -50,7 +50,6 @@ const onSubmit = async (values) => {
     const response = await axios.post(
       `${API_URL}${endpoints[props.params.endpoint]}`,
       {
-        headers: { Authorization: `Bearer ${TOKEN}` },
         data: {
           name: values.user_name,
           phone: values.user_phone,
@@ -59,6 +58,9 @@ const onSubmit = async (values) => {
           vacancy: values.user_vacancy,
           accept_terms: values.accept_terms === "true"
         }
+      },
+      {
+        headers: { Authorization: `Bearer ${TOKEN}` }
       }
     );
 
