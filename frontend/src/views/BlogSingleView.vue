@@ -275,8 +275,7 @@ onMounted(() => {
         inset: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(51, 51, 51, 0.8);
-        backdrop-filter: blur(10px);
+        background-color: rgba(0, 109, 145, 0.9);
         z-index: -1;
       }
 
@@ -284,7 +283,7 @@ onMounted(() => {
         cursor: not-allowed;
 
         &:after {
-          background-color: rgba(222, 222, 222, 0.1);
+          background-color: rgba(0, 109, 145, 0.3);
         }
       }
     }
