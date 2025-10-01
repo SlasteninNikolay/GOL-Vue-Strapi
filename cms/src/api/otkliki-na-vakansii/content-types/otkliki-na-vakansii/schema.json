@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "form_submissions",
+  "collectionName": "otkliki_na_vakansiis",
   "info": {
-    "singularName": "form-submission",
-    "pluralName": "form-submissions",
-    "displayName": "Форма обратной связи"
+    "singularName": "otkliki-na-vakansii",
+    "pluralName": "otkliki-na-vakansiis",
+    "displayName": "Отклики на вакансии"
   },
   "options": {
     "draftAndPublish": true
@@ -15,6 +15,22 @@
     }
   },
   "attributes": {
+    "city": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "vacancy": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
     "name": {
       "type": "string",
       "pluginOptions": {
@@ -33,15 +49,6 @@
       },
       "required": true
     },
-    "accept_terms": {
-      "type": "boolean",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "required": true
-    },
     "message": {
       "type": "text",
       "pluginOptions": {
@@ -50,6 +57,16 @@
         }
       },
       "maxLength": 3000
+    },
+    "accept_terms": {
+      "type": "boolean",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "required": true,
+      "default": false
     }
   }
 }

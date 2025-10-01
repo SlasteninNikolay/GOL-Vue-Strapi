@@ -504,6 +504,15 @@ export interface ApiFormSubmissionFormSubmission
       'oneToMany',
       'api::form-submission.form-submission'
     >;
+    message: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 3000;
+      }>;
     name: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
@@ -813,6 +822,81 @@ export interface ApiObjectObject extends Struct.CollectionTypeSchema {
         };
       }>;
     website: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+  };
+}
+
+export interface ApiOtklikiNaVakansiiOtklikiNaVakansii
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'otkliki_na_vakansiis';
+  info: {
+    displayName: '\u041E\u0442\u043A\u043B\u0438\u043A\u0438 \u043D\u0430 \u0432\u0430\u043A\u0430\u043D\u0441\u0438\u0438';
+    pluralName: 'otkliki-na-vakansiis';
+    singularName: 'otkliki-na-vakansii';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    accept_terms: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.DefaultTo<false>;
+    city: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::otkliki-na-vakansii.otkliki-na-vakansii'
+    >;
+    message: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 3000;
+      }>;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    phone: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    vacancy: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -1639,6 +1723,7 @@ declare module '@strapi/strapi' {
       'api::loyalty-program.loyalty-program': ApiLoyaltyProgramLoyaltyProgram;
       'api::object-category.object-category': ApiObjectCategoryObjectCategory;
       'api::object.object': ApiObjectObject;
+      'api::otkliki-na-vakansii.otkliki-na-vakansii': ApiOtklikiNaVakansiiOtklikiNaVakansii;
       'api::page.page': ApiPagePage;
       'api::promotion.promotion': ApiPromotionPromotion;
       'api::room.room': ApiRoomRoom;

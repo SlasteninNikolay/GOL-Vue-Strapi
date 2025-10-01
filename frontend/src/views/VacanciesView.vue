@@ -6,11 +6,24 @@ import BaseAccordion from '@/components/ui/base/BaseAccordion.vue'
 import BaseAccordionItem from '@/components/ui/base/BaseAccordionItem.vue'
 import { onMounted, ref, computed } from 'vue'
 import axios from 'axios'
+import BaseButton from "@/components/ui/base/BaseButton.vue";
+import BaseModal from "@/components/ui/base/BaseModal.vue";
+import ContactForm from "@/components/ui/feedback/ContactForm.vue";
 
 const vacanciesData = ref([])
 const error = ref(null)
 const loading = ref(true)
+
 const activeLocation = ref('all')
+
+const showModal = ref(false)
+
+const vacancyData = ref([])
+
+const modalHandler = (vacancy) => {
+  vacancyData.value = [{name: 'vacancy', value: vacancy.name},{name: 'city', value: vacancy.cityName}]
+  showModal.value = true
+}
 
 const fetchData = async () => {
   try {
@@ -115,7 +128,18 @@ onMounted(async () => {
               :title="vacancy.name"
               :content="vacancy.content"
               :index="vacancy.id"
-            />
+            >
+              <template #modal-button>
+                <BaseButton
+                  @click.stop.prevent="() => modalHandler(vacancy)"
+                  tag="button"
+                  label="Связаться с нами"
+                  mode="primary"
+                  icon-name="email"
+                  icon-size="small"
+                />
+              </template>
+            </BaseAccordionItem>
           </div>
         </template>
       </BaseAccordion>
@@ -123,6 +147,19 @@ onMounted(async () => {
       <div v-if="loading">Загрузка вакансий...</div>
       <div v-if="error">Ошибка загрузки: {{ error }}</div>
     </AppSection>
+    <Teleport to="body">
+      <BaseModal :show="showModal" @close="showModal = false">
+        <template #header>
+          <h3>Свяжитесь со мной</h3>
+        </template>
+        <template #body>
+          <ContactForm
+            theme="light"
+            :params="{ hidden: vacancyData, withMessage: false, endpoint: 'vacancy' }"
+          />
+        </template>
+      </BaseModal>
+    </Teleport>
   </div>
 </template>
 

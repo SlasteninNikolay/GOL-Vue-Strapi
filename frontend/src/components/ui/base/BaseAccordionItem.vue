@@ -52,15 +52,22 @@ const htmlContent = computed(() => richTextToHtml(props.content))
         class="accordion-item__content-grid"
       >
         <div></div>
-        <div v-html="htmlContent" class="accordion-item__content" />
+        <div class="accordion-item__content" >
+          <div v-html="htmlContent" />
+          <slot name="modal-button"></slot>
+        </div>
       </BaseGrid>
       <BaseGrid
         v-else-if="contentPosition === 'left'"
         columns="1"
         class="accordion-item__content-grid"
       >
-        <div v-html="htmlContent" class="accordion-item__content" />
+        <div class="accordion-item__content" >
+          <div v-html="htmlContent" />
+          <slot class="accordion-item__modal-button" name="modal-button"></slot>
+        </div>
       </BaseGrid>
+
     </div>
   </li>
 </template>
@@ -80,7 +87,7 @@ const htmlContent = computed(() => richTextToHtml(props.content))
   }
 
   &__head {
-    padding-block: fluid-to-laptop(40, 10);
+    padding-block: fluid-to-laptop(40, 18);
     width: 100%;
     position: relative;
     cursor: pointer;
@@ -108,6 +115,10 @@ const htmlContent = computed(() => richTextToHtml(props.content))
   &__content {
     padding-top: 0;
     padding-bottom: fluid(30, 10);
+
+    :deep(.button ) {
+      margin-block: fluid-to-laptop(40, 20);
+    }
   }
 }
 

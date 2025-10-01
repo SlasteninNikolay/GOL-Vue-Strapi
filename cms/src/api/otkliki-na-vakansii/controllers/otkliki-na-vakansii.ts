@@ -1,27 +1,33 @@
+/**
+ * otkliki-na-vakansii controller
+ */
+
 import { factories } from '@strapi/strapi';
 
 interface FormData {
     name: string;
     phone: string;
-    message: string;
+    city: string;
+    vacancy: string;
     accept_terms: boolean | string;
 }
 
 export default factories.createCoreController(
-    'api::form-submission.form-submission',
+    'api::otkliki-na-vakansii.otkliki-na-vakansii',
     ({ strapi }) => ({
         async create(ctx) {
             try {
                 const sanitizedInput = await this.sanitizeInput(ctx.request.body, ctx);
                 const { data } = sanitizedInput as { data: FormData };
-                const { name, phone, message = '', accept_terms } = data;
+                const { name, phone, city, vacancy, accept_terms } = data;
 
                 // Создаем запись
-                const entry = await strapi.service('api::form-submission.form-submission').create({
+                const entry = await strapi.service('api::otkliki-na-vakansii.otkliki-na-vakansii').create({
                     data: {
                         name,
                         phone,
-                        message,
+                        city,
+                        vacancy,
                         accept_terms: accept_terms === "true" || accept_terms === true
                     },
                 });
@@ -33,28 +39,29 @@ export default factories.createCoreController(
                             to: process.env.SMTP_TO_ADMIN || 'slastenindev@gmail.com',
                             from: process.env.SMTP_DEFAULT_FROM,
                             replyTo: process.env.SMTP_DEFAULT_REPLY_TO,
-                            subject: '📋 Новая заявка с сайта LEGENDA Hotels',
+                            subject: '📋 Отклик на вакансию с сайта LEGENDA Hotels',
                             html: `
                                 <div style="font-family: Montserrat, sans-serif; max-width: 600px;">
-                                  <h2 style="color: #244C60;">🔔 Новая заявка</h2>
+                                  <h2 style="color: #244C60;">🔔 Новый отклик на вакансию</h2>
                                   
-                                  <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #244C60;">
+                                  <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #2563eb;">
                                     <p><strong>👤 Имя:</strong> ${name}</p>
                                     <p><strong>📞 Телефон:</strong> <a href="tel:${phone}">${phone}</a></p>
-                                    <p><strong>✉️ Сообщение:</strong> ${message ? message : '—'}</p>                        
+                                    <p><strong>🏙️ Город:</strong> ${city}</p>    
+                                    <p><strong>🧑‍💼 Вакансия:</strong> ${vacancy}</p>                                                                         
                                     <p><strong>✅ Согласие с политикой:</strong> ${accept_terms ? 'Да' : 'Нет'}</p>
                                     <p><strong>📅 Дата получения:</strong> ${new Date().toLocaleString('ru-RU')}</p>
                                   </div>
                                   
                                   <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 6px;">
-                                    <p style="margin: 0; color: #856404;">
+                                    <p style="margin: 0; color: #244C60;">
                                       <strong>⚠️ Внимание:</strong> Это автоматическое уведомление. 
                                       Пожалуйста, не отвечайте на это письмо. 
                                       Для связи используйте почту: ${process.env.SMTP_DEFAULT_REPLY_TO}
                                     </p>
                                   </div>
                                   
-                                  <p style="color: #6c757d; font-size: 12px; margin-top: 20px;">
+                                  <p style="color: #244C60; font-size: 12px; margin-top: 20px;">
                                     © ${new Date().getFullYear()} LEGENDA Hotels. Все права защищены.
                                   </p>
                                 </div>

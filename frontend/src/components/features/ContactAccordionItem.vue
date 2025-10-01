@@ -102,7 +102,6 @@ const toggle = () => {
   }
 
   &__head {
-    padding-block: fluid-to-laptop(20, 10);
     width: 100%;
     position: relative;
     cursor: pointer;
