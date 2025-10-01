@@ -198,6 +198,7 @@ onMounted(async () => {
 }
 
 .accordion-counter {
+  max-width: 280px;
   position: relative;
   left: 50%;
   transform: translateX(-10%);
