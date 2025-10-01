@@ -3,7 +3,7 @@ import { Form, Field, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
 import { ref } from 'vue';
 import axios from 'axios';
-import {API_URL} from "@/utils/constants.js";
+import {API_URL, TOKEN} from "@/utils/constants.js";
 
 const props = defineProps({
   // 'primary', 'light', 'dark'
@@ -50,6 +50,7 @@ const onSubmit = async (values) => {
     const response = await axios.post(
       `${API_URL}${endpoints[props.params.endpoint]}`,
       {
+        headers: { Authorization: `Bearer ${TOKEN}` },
         data: {
           name: values.user_name,
           phone: values.user_phone,
