@@ -12,7 +12,6 @@ import { preloadObjects } from './cache/objectsCache'
 const app = createApp(App).use(router)
 app.directive('imask', IMaskDirective as any)
 
-// Настройки для vue-yandex-maps
 app.use(
   createYmaps({
     apikey: 'bb753275-daf4-43fa-9089-8a54cfead427',
