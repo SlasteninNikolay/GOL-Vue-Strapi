@@ -111,7 +111,7 @@ const toggle = () => {
     span {
       position: absolute;
       left: 0;
-      top: -4px;
+      top: -14px;
       font-weight: 300;
       @include fluid-text(12, 10);
       color: var(--color-gray-60);
