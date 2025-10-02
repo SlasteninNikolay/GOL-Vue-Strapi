@@ -68,7 +68,9 @@ export default defineConfig({
     allowedHosts: [
       'legenda-dev.ru',
       'www.legenda-dev.ru',
-      'localhost'
+      'localhost',
+      'www.legenda-hotels.ru"',
+      'legenda-hotels.ru"'
     ]
   },
   // Для продакшен сборки
