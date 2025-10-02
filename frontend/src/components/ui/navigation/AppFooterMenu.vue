@@ -38,7 +38,7 @@ const router = useRouter();
         Блог
       </h4>
       <ul class="footer-menu__list">
-        <li class="footer-menu__list-item link" @click="router.push({ path: 'blog' })">Новости</li>
+        <li class="footer-menu__list-item link" @click="router.push({ path: '/blog' })">Новости</li>
       </ul>
     </div>
     <div class="footer-menu__item">
@@ -48,7 +48,7 @@ const router = useRouter();
       <ul class="footer-menu__list">
         <li class="footer-menu__list-item link" @click="router.push({ path: '/law' })">Правовая информация</li>
         <li class="footer-menu__list-item link" @click="router.push({ path: '/loyalty-program' })">Программа лояльности</li>
-        <li class="footer-menu__list-item link" @click="router.push({ path: 'pages/politika-konfidencialnosti' })">Политика конфиденциальности</li>
+        <li class="footer-menu__list-item link" @click="router.push({ path: '/pages/politika-konfidencialnosti' })">Политика конфиденциальности</li>
       </ul>
     </div>
   </BaseGrid>
