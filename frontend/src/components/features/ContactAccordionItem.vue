@@ -71,6 +71,7 @@ const toggle = () => {
   </div>
 </template>
 <style lang="scss" scoped>
+
 .accordion-item {
   position: relative;
 
@@ -88,13 +89,14 @@ const toggle = () => {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding-bottom: 20px !important;
+    padding-block: 20px !important;
 
     &-item {
       display: flex;
       gap: 10px;
 
       :deep(.icon) {
+        flex-shrink: 0;
         width: 18px;
         height: 18px;
       }
@@ -102,6 +104,7 @@ const toggle = () => {
   }
 
   &__head {
+    padding-bottom: 10px;
     width: 100%;
     position: relative;
     cursor: pointer;
@@ -111,7 +114,7 @@ const toggle = () => {
     span {
       position: absolute;
       left: 0;
-      top: -14px;
+      top: -20px;
       font-weight: 300;
       @include fluid-text(12, 10);
       color: var(--color-gray-60);

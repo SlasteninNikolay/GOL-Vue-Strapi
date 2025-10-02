@@ -174,6 +174,13 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
+
+.hotels-section {
+  :deep(.grid) {
+    gap: 40px;
+  }
+}
+
 .content__inner {
   position: relative;
 
@@ -213,6 +220,7 @@ onMounted(async () => {
   }
 
   &__grid {
+
     @include tablet {
       gap: 40px;
     }
