@@ -13,7 +13,7 @@ export const startTransition = () => {
     if (loadingProgress.value < 90) {
       loadingProgress.value = Math.min(90, loadingProgress.value + 1)
     }
-  }, 80)
+  }, 200)
 }
 
 export const endTransition = () => {
@@ -21,5 +21,5 @@ export const endTransition = () => {
   loadingProgress.value = 100
   setTimeout(() => {
     isTransitioning.value = false
-  }, 450)
+  }, 650)
 }

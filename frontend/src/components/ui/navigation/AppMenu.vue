@@ -120,7 +120,7 @@ onMounted(async () => {
     flex-direction: column;
     justify-content: center;
     padding: var(--padding-y) var(--padding-x);
-    transition-duration: var(--transition-duration-longer);
+    transition-duration: var(--transition-duration-eternity);
 
     &:nth-child(1) {
       left: -100%;

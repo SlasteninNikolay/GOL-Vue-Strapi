@@ -123,7 +123,7 @@ onMounted(async () => {
             title="Название или локация"
             v-model="region"
             type="text"
-            placeholder="Город, регион, отель"
+            placeholder="Город, регион, название"
             class="filters__regions-input"
           />
           <BaseButton
