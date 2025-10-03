@@ -260,11 +260,14 @@ const onSubmit = async (values) => {
   }
 
   &__label {
+    position: relative;
+    top: -7px;
     display: inline-flex;
     gap: 5px;
     font-size: 10px;
     line-height: 1.8;
     color: var(--theme-color);
+    padding-bottom: 1rem;
 
     @include  mobile {
       align-items: flex-start;
