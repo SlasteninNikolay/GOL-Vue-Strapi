@@ -2,13 +2,15 @@
 import BaseButton from "@/components/ui/base/BaseButton.vue";
 
 const props = defineProps({
-  show: Boolean
+  show: Boolean,
+  // '' - modal, 'notification'
+  mode: '',
 })
 </script>
 
 <template>
-  <Transition name="modal">
-    <div v-if="show" class="modal-mask">
+  <Transition :name="mode === 'notification' ? 'cookie-popup' : 'modal' ">
+    <div v-if="show" class="modal-mask" :class="mode">
       <div class="modal-container">
         <div class="modal-header">
           <slot name="header"></slot>
@@ -39,6 +41,21 @@ const props = defineProps({
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   transition: opacity 0.3s ease;
+
+  &.notification {
+    top: initial;
+    left: initial;
+    right: 2rem;
+    bottom: 2rem;
+    width: auto;
+    height: auto;
+
+    .modal-container {
+      width: 100%;
+      margin: 0;
+      padding: 1.4rem;
+    }
+  }
 }
 
 .modal-container {
@@ -83,5 +100,30 @@ const props = defineProps({
 .modal-leave-to .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+.cookie-popup-enter-active,
+.cookie-popup-leave-active {
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cookie-popup-enter-from {
+  opacity: 0;
+  transform: translateY(60px) scale(1.05);
+}
+
+.cookie-popup-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.cookie-popup-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.cookie-popup-leave-to {
+  opacity: 0;
+  transform: translateY(60px) scale(1.05);
 }
 </style>

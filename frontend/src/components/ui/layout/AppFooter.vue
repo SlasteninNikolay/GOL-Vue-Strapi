@@ -7,6 +7,7 @@
       <slot />
       <FooterCopyright />
     </div>
+    <CookiePopup />
   </footer>
 </template>
 <style scoped lang="scss">
@@ -32,4 +33,5 @@
 <script setup lang="ts">
 import FooterCopyright from '@/components/features/FooterCopyright.vue'
 import BaseIcon from '@/components/ui/base/BaseIcon.vue'
+import CookiePopup from "@/components/features/CookiePopup.vue";
 </script>
