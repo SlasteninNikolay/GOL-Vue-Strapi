@@ -24,7 +24,7 @@ onMounted(() => {
   spans.forEach((span, index) => {
     gsap.fromTo(
       span,
-      { x: index % 2 === 0 ? -120 : 120 },
+      { x: index % 2 === 0 ? -100 : 100 },
       {
         x: 0,
         scrollTrigger: {

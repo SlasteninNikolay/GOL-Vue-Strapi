@@ -60,7 +60,7 @@ const show = ref(false)
       bottom: 0;
       width: 100%;
       padding: fluid(12, 8);
-      background-color: var(--black-opacity-30);
+      background-color: var(--primary-opacity-90);
     }
   }
 

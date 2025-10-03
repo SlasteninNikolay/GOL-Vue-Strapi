@@ -37,37 +37,36 @@ const toggle = () => {
 }
 </script>
 <template>
-  <div @click="toggle" class="accordion-item">
-
-    <h3 class="accordion-item__head h4" :class="{ 'accordion-item__head--active': show }">
+  <div class="accordion-item">
+    <h3  @click.stop="toggle" class="accordion-item__head h4" :class="{ 'accordion-item__head--active': show }">
       <span>{{ pretitle }}</span>
       {{ title }}
       <BaseIcon class="tick" name="tick" color="#5a5a5a" />
     </h3>
-    <transition name="slide">
-      <BaseGrid columns="1">
-        <div v-show="show" class="accordion-item__content">
-          <ul class="accordion-item__list">
-            <li  class="accordion-item__list-item" v-if="adress">
-              <BaseIcon name="location" color="#5a5a5a" />
-              {{adress}}
-            </li>
-            <li  class="accordion-item__list-item" v-if="phone">
-              <BaseIcon name="phone" color="#5a5a5a" />
-              {{phone}}
-            </li>
-            <li  class="accordion-item__list-item" v-if="email">
-              <BaseIcon name="email" color="#5a5a5a" />
-              {{email}}
-            </li>
-            <li  class="accordion-item__list-item" v-if="website">
-              <BaseIcon name="website" color="#5a5a5a" />
-              {{website}}
-            </li>
-          </ul>
-        </div>
-      </BaseGrid>
-    </transition>
+    <BaseGrid columns="1">
+      <transition name="accordion">
+      <div v-show="show" class="accordion-item__content">
+        <ul class="accordion-item__list">
+          <li  class="accordion-item__list-item" v-if="adress">
+            <BaseIcon name="location" color="#5a5a5a" />
+            {{adress}}
+          </li>
+          <li  class="accordion-item__list-item" v-if="phone">
+            <BaseIcon name="phone" color="#5a5a5a" />
+            <a :href="`tel:${phone.replace(/[\s()-]/g,'')}`">{{phone}}</a>
+          </li>
+          <li  class="accordion-item__list-item" v-if="email">
+            <BaseIcon name="email" color="#5a5a5a" />
+            <a :href="`mailto:${email}`">{{email}}</a>
+          </li>
+          <li  class="accordion-item__list-item" v-if="website">
+            <BaseIcon name="website" color="#5a5a5a" />
+            <a rel="nofollow noindex noopener" :href="website">{{website.replace(/https:\/\//g, '')}}</a>
+          </li>
+        </ul>
+      </div>
+      </transition>
+    </BaseGrid>
   </div>
 </template>
 <style lang="scss" scoped>
@@ -110,17 +109,19 @@ const toggle = () => {
     cursor: pointer;
     user-select: none;
     text-transform:  uppercase;
+    transition: var(--transition-duration-longer);
 
     span {
+      @include fluid-text(12, 10);
+
       position: absolute;
       left: 0;
       top: -20px;
       font-weight: 300;
-      @include fluid-text(12, 10);
+
       color: var(--color-gray-60);
       text-transform:  capitalize;
     }
-
 
     &--active {
       .tick {
@@ -145,17 +146,21 @@ const toggle = () => {
   top: 50%;
   transform: translateY(-50%);
   right: 20px;
-  width: fluid(24, 12);
-  height: fluid(24, 12);
-  transition-duration: var(--transition-duration);
+  width: fluid(14, 12);
+  height: fluid(14, 12);
+  transition-duration: var(--transition-duration-longer);
 }
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: height var(--transition-duration) ease;
+.accordion-enter-active, .accordion-leave-active {
+  transition: max-height var(--transition-duration-eternity) cubic-bezier(0.4, 0, 0.2, 1), opacity var(--transition-duration-eternity);
+  overflow: hidden;
 }
-
-.slide-enter,
-.slide-leave-to {
+.accordion-enter-from, .accordion-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
+.accordion-enter-to, .accordion-leave-from {
+  max-height: 500px;
+  opacity: 1;
 }
 </style>

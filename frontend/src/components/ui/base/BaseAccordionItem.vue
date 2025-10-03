@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, inject } from 'vue'
+import { computed, inject } from 'vue'
 import BaseIcon from '@/components/ui/base/BaseIcon.vue'
 import BaseGrid from '@/components/ui/base/BaseGrid.vue'
 import { richTextToHtml } from '@/utils/helpers.js'
@@ -42,33 +42,34 @@ const htmlContent = computed(() => richTextToHtml(props.content))
       {{ title }}
       <BaseIcon class="tick" name="tick" color="#5a5a5a" />
     </h3>
-    <div
-      class="accordion-item__content-wrapper"
-      :class="{ 'is-open': show }"
-    >
-      <BaseGrid
-        v-if="contentPosition === 'right'"
-        columns="2"
-        class="accordion-item__content-grid"
+    <transition name="accordion">
+      <div
+        class="accordion-item__content-wrapper"
+        :class="{ 'is-open': show }"
       >
-        <div></div>
-        <div class="accordion-item__content" >
-          <div v-html="htmlContent" />
-          <slot name="modal-button"></slot>
-        </div>
-      </BaseGrid>
-      <BaseGrid
-        v-else-if="contentPosition === 'left'"
-        columns="1"
-        class="accordion-item__content-grid"
-      >
-        <div class="accordion-item__content" >
-          <div v-html="htmlContent" />
-          <slot class="accordion-item__modal-button" name="modal-button"></slot>
-        </div>
-      </BaseGrid>
-
-    </div>
+          <BaseGrid
+            v-if="contentPosition === 'right'"
+            columns="2"
+            class="accordion-item__content-grid"
+          >
+            <div></div>
+            <div class="accordion-item__content" >
+              <div v-html="htmlContent" />
+              <slot name="modal-button"></slot>
+            </div>
+          </BaseGrid>
+          <BaseGrid
+            v-else-if="contentPosition === 'left'"
+            columns="1"
+            class="accordion-item__content-grid"
+          >
+            <div class="accordion-item__content" >
+              <div v-html="htmlContent" />
+              <slot class="accordion-item__modal-button" name="modal-button"></slot>
+            </div>
+          </BaseGrid>
+      </div>
+    </transition>
   </li>
 </template>
 
@@ -130,5 +131,18 @@ const htmlContent = computed(() => richTextToHtml(props.content))
   width: fluid(16, 12);
   height: fluid(16, 12);
   transition-duration: var(--transition-duration);
+}
+
+.accordion-enter-active, .accordion-leave-active {
+  transition: max-height var(--transition-duration-eternity) cubic-bezier(0.4, 0, 0.2, 1), opacity var(--transition-duration-eternity);
+  overflow: hidden;
+}
+.accordion-enter-from, .accordion-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
+.accordion-enter-to, .accordion-leave-from {
+  max-height: 500px;
+  opacity: 1;
 }
 </style>

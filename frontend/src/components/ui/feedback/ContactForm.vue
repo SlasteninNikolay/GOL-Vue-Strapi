@@ -119,7 +119,7 @@ const onSubmit = async (values) => {
         type="submit"
         :disabled="loading"
       >
-        {{ loading ? 'Отправка...' : 'Отправить сообщение' }}
+        {{ loading ? 'Отправка...' : 'Отправить' }}
       </button>
     </div>
     <div class="contact-form__group _flex">
@@ -210,15 +210,15 @@ const onSubmit = async (values) => {
     }
 
     &::placeholder {
-      color: var(--color-gray-75);
+      color: var(--color-gray-65);
     }
   }
 
   &__message {
     position: absolute;
     left: 0;
-    bottom: calc(var(--formGap) * -1);
-    font-size: 12px;
+    bottom: -1.2rem;
+    font-size: 10px;
     color: var(--theme-color-message);
     border-radius: 8px;
     z-index: 2;
