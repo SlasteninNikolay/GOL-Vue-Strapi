@@ -46,7 +46,7 @@ const router = useRouter();
         Информация
       </h4>
       <ul class="footer-menu__list">
-        <li class="footer-menu__list-item link" @click="router.push({ path: '/polzovatelskoe-soglashenie' })">Пользовательское соглашение</li>
+        <li class="footer-menu__list-item link" @click="router.push({ path: '/pages/polzovatelskoe-soglashenie' })">Пользовательское соглашение</li>
         <li class="footer-menu__list-item link" @click="router.push({ path: '/loyalty-program' })">Программа лояльности</li>
         <li class="footer-menu__list-item link" @click="router.push({ path: '/pages/politika-konfidencialnosti' })">Политика конфиденциальности</li>
       </ul>
