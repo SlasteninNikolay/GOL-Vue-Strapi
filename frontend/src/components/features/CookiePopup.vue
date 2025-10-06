@@ -49,6 +49,10 @@ function acceptCookies() {
     flex-direction: column;
     gap: 1rem;
     border: 1px var(--color-primary) solid;
+
+    @include tablet {
+      max-width: 100%;
+    }
   }
 
   :deep(.modal-body) {

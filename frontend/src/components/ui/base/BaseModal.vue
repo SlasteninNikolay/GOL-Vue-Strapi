@@ -30,7 +30,7 @@ const props = defineProps({
   </Transition>
 </template>
 
-<style>
+<style lang="scss" scoped>
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -50,19 +50,18 @@ const props = defineProps({
     width: auto;
     height: auto;
 
-    .modal-container {
-      width: 100%;
-      margin: 0;
-      padding: 1.4rem;
+    @include tablet {
+      right: 0;
+      bottom: 0;
     }
   }
 }
 
 .modal-container {
-  width: 95%;
+  width: 100%;
   max-width: 480px;
-  margin: auto;
-  padding: 2.4rem 2rem;
+  margin: 0;
+  padding: 1.6rem 1rem;
   background-color: #fff;
   border-radius: 2px;
   transition: all 0.3s ease;
@@ -126,4 +125,5 @@ const props = defineProps({
   opacity: 0;
   transform: translateY(60px) scale(1.05);
 }
+
 </style>
