@@ -40,6 +40,8 @@ const props = defineProps({
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
+  align-items: center;
+  justify-content: center;
   transition: opacity 0.3s ease;
 
   &.notification {
@@ -50,6 +52,10 @@ const props = defineProps({
     width: auto;
     height: auto;
 
+    .modal-container {
+      width: 100%;
+    }
+
     @include tablet {
       right: 0;
       bottom: 0;
@@ -58,7 +64,8 @@ const props = defineProps({
 }
 
 .modal-container {
-  width: 100%;
+  width: calc(100% - 2rem);
+  height: max-content;
   max-width: 480px;
   margin: 0;
   padding: 1.6rem 1rem;

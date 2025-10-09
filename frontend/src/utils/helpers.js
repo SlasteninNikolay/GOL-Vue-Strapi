@@ -110,6 +110,7 @@ export function richTextToHtml(blocks) {
     .filter(item => item !== '') // Удаляем пустые блоки
     .join('')
 }
+
 export function getDomain (url, subdomain) {
 
   if(!url) {
