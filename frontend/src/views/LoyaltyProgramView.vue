@@ -64,9 +64,13 @@ onMounted(async () => {
      </BaseGrid>
       <div class="loyalty-section__navigation">
         <base-button
+          tag="router-link"
+          href="/lk/?gp-params=area%3Dprofile%26page%3Dregister"
           label="Регистрация в программе лояльности"
         />
         <base-button
+          tag="router-link"
+          href="/lk"
           label="Личный кабинет"
           mode="outlined"
           icon-name="link"

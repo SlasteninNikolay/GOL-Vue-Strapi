@@ -138,6 +138,15 @@ export const routes = [
     },
   },
   {
+    path: '/lk',
+    name: 'lk',
+    component: () => import('@/views/LkView.vue'),
+    props: true,
+    meta: {
+      breadcrumb: (route) => route.params.title || route.params.slug
+    },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('@/views/NotFoundView.vue'),

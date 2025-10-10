@@ -1,5 +1,4 @@
 <script setup>
-import objectCategories from '@/mocks/objectCategories.json'
 import BaseButton from '@/components/ui/base/BaseButton.vue'
 import BaseGrid from '@/components/ui/base/BaseGrid.vue'
 import { ref, onMounted } from 'vue'
