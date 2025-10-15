@@ -21,6 +21,7 @@ import {
   YandexMapZoomControl,
   YandexMapScaleControl,
 } from 'vue-yandex-maps'
+import NotFoundView from "@/views/NotFoundView.vue";
 
 const customization = shallowRef([
   {
@@ -152,7 +153,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="content__inner">
+  <div v-if="objectData" class="content__inner">
     <AppSection class="object-section" :title="objectData?.title ?? ''" title-tag="h1">
       <div class="object-section__top-bio">
         <div>{{ objectData?.type ?? '' }}</div>
@@ -335,6 +336,9 @@ onMounted(async () => {
         </div>
       </BaseGrid>
     </AppSection>
+  </div>
+  <div v-else>
+    <NotFoundView />
   </div>
 </template>
 

@@ -5,6 +5,7 @@ import AppBreadcrumbs from '@/components/ui/navigation/AppBreadcrumbs.vue'
 import AppSection from '@/components/ui/layout/AppSection.vue'
 import { onMounted, ref } from 'vue'
 import BaseButton from '@/components/ui/base/BaseButton.vue'
+import {set404Status} from "@/utils/seo.js";
 
 const loading = ref(false)
 const error = ref('')
@@ -28,12 +29,12 @@ const fetchSystem = async () => {
 }
 
 onMounted(async () => {
+  set404Status()
   await fetchSystem()
 })
 </script>
 
 <template>
-  <AppBreadcrumbs />
   <AppSection title="Страница не найдена">
     <picture class="pb">
       <source

@@ -6,7 +6,7 @@ const roomsCache = new Map()
 
 // Получение названия объекта по slug
 export const getObjectNameBySlug = (slug) => {
-  return objectsCache.get(slug) || 'Объект'
+  return objectsCache.get(slug) || null
 }
 
 // Получение названия комнаты по roomSlug

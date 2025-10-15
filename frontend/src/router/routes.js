@@ -34,7 +34,7 @@ export const routes = [
         path: ':slug',
         name: 'objects-single',
         component: () => import('@/views/ObjectsSingleView.vue'),
-        meta: { breadcrumb: (route) => getObjectNameBySlug(route.params.slug) }
+        meta: { breadcrumb: (route) => getObjectNameBySlug(route.params.slug) },
       },
       {
         path: ':slug/rooms/:roomSlug',
