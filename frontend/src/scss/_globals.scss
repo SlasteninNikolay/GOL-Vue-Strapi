@@ -18,7 +18,8 @@ html {
 body {
   min-height: 100vh;
 
-  @include fluid-text(14, 12);
+  font-size: 14px;
+  line-height: 1.6;
   font-weight: 400;
   letter-spacing: 1px;
   display: flex;
