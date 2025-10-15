@@ -300,7 +300,7 @@ onMounted(() => {
   &__date {
     display: flex;
     align-items: center;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--color-gray-70);
 
     &-icon {
@@ -310,8 +310,8 @@ onMounted(() => {
   }
 
   &__content {
-    padding: fluid-to-laptop(40, 24);
-    @include fluid-text(18, 14);
+    padding: fluid-to-laptop(40, 15);
+    @include fluid-text(18, 15);
     line-height: 1.7;
     border: 1px solid var(--primary-opacity-10);
     margin: 0 auto;
@@ -358,7 +358,7 @@ onMounted(() => {
   }
 }
 
-// Адаптивные стили для слайдера
+
 @media (max-width: 768px) {
   .article {
     &__slider {
