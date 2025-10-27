@@ -337,9 +337,6 @@ onMounted(async () => {
       </BaseGrid>
     </AppSection>
   </div>
-  <div v-else>
-    <NotFoundView />
-  </div>
 </template>
 
 <style scoped lang="scss">
