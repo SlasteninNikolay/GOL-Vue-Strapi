@@ -99,7 +99,7 @@ export const routes = [
     },
     children: [
       {
-        path: ':slug',  // Изменено с :id на :slug
+        path: ':slug',
         name: 'services-single',
         component: () => import('@/views/ServicesSingleView.vue'),
         props: true,

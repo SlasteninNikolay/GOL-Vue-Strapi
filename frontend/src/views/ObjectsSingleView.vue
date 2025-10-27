@@ -1,6 +1,7 @@
 <script setup>
-import { computed, onMounted, ref, shallowRef, provide } from 'vue'
+import { computed, onMounted, ref, shallowRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useHead } from '@vueuse/head'
 import axios from 'axios'
 
 import AppSection from '@/components/ui/layout/AppSection.vue'
@@ -21,7 +22,6 @@ import {
   YandexMapZoomControl,
   YandexMapScaleControl,
 } from 'vue-yandex-maps'
-import NotFoundView from "@/views/NotFoundView.vue";
 
 const customization = shallowRef([
   {
@@ -146,6 +146,47 @@ const fetchObjectBySlug = async (slug) => {
     loading.value = false
   }
 }
+
+watch(
+  () => [objectData.value, loading.value],
+  ([object, loadingNow]) => {
+    if (loadingNow) return;
+
+    if (object) {
+      useHead({
+        title: `${object.title} – Официальный сайт LEGENDA Hotels`,
+        meta: [
+          { name: 'description', content: objectData.value?.shortDescription ?? 'Объект компании LEGENDA Hotels' },
+          { name: 'keywords', content: objectData.value?.keywords ?? 'LEGENDA, отели, горнолыжные курорты, туристические базы, отдых, бронирование отеля, spa' },
+          { property: 'og:title', content: objectData.value?.title ?? 'Портфолио – Официальный сайт LEGENDA Hotels' },
+          { property: 'og:description', content: objectData.value?.shortDescription ?? 'Объект компании LEGENDA Hotels' },
+          { property: 'og:image', content: objectData.value?.images?.[0]?.url ? BACKEND_URL + objectData.value.images[0].url : '/default-image.jpg' },
+          { property: 'og:type', content: 'article' },
+          { property: 'og:url', content: window.location.href },
+          { property: 'og:site_name', content: 'Официальный сайт LEGENDA Hotels' },
+          { name: 'twitter:card', content: 'summary_large_image' },
+          { name: 'twitter:title', content: objectData.value?.title ?? 'Портфолио – Официальный сайт LEGENDA Hotels' },
+          { name: 'twitter:description', content: objectData.value?.shortDescription ?? 'Объект компании LEGENDA Hotels' },
+          { name: 'twitter:image', content: objectData.value?.images?.[0]?.url ? BACKEND_URL + objectData.value.images[0].url : '/default-image.jpg' },
+          { name: 'author', content: objectData.value?.author ?? 'LEGENDA Hotels' },
+        ],
+        link: [
+          { rel: 'icon', href: '/favicon.svg' },
+        ],
+      })
+    } else {
+      // meta для 404
+      useHead({
+        title: 'Страница не найдена – Официальный сайт LEGENDA Hotels',
+        meta: [
+          { name: 'robots', content: 'noindex, nofollow' },
+          { name: 'description', content: 'Страница не найдена' },
+        ],
+      })
+    }
+  },
+  { immediate: true }
+)
 
 onMounted(async () => {
   await fetchObjectBySlug(slug)
