@@ -10,6 +10,7 @@ import YandexMap from '@/components/features/YandexMap.vue'
 import axios from 'axios'
 import { API_URL, TOKEN } from '@/utils/constants.js'
 import { useRoute } from 'vue-router'
+import { useHead } from '@vueuse/head'
 
 const route = useRoute()
 
@@ -91,6 +92,33 @@ const filteredObjects = computed(() => {
 
     return matchRegion && matchCategory
   })
+})
+
+useHead({
+  title: 'Портфолио LEGENDA Hotels',
+  meta: [
+    { name: 'description', content: 'Профессиональное управление отелями, турбазами, глемпингами, хостелами и курортами по всей России. Техническое сопровождение, развитие и сервис.' },
+    { name: 'keywords', content: 'legenda, гостиничные объекты, управление туристическим бизнесом, управление туристической деятельностью, туристический бизнес, развитие туристического бизнеса, туристический бизнес 2025, туристический бизнес в россии, гостиничный и туристический бизнес' },
+
+    // Open Graph (социальные сети)
+    { property: 'og:title', content: 'Портфолио LEGENDA Hotels' },
+    { property: 'og:description', content: 'Профессиональное управление отелями, турбазами, глемпингами, хостелами и курортами по всей России. Техническое сопровождение, развитие и сервис.' },
+    { property: 'og:image', content: '/default-image.jpg' },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: window.location.href },
+    { property: 'og:site_name', content: 'Портфолио LEGENDA Hotels' },
+
+    // Twitter Card
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'Портфолио LEGENDA Hotels' },
+    { name: 'twitter:description', content: 'Профессиональное управление отелями, турбазами, глемпингами, хостелами и курортами по всей России. Техническое сопровождение, развитие и сервис.' },
+    { name: 'twitter:image', content: '/default-image.jpg' },
+
+    { name: 'author', content: 'Портфолио LEGENDA Hotels' },
+  ],
+  link: [
+    { rel: 'icon', href: '/favicon.svg' },
+  ]
 })
 
 // Имитация загрузки при фильтрации
