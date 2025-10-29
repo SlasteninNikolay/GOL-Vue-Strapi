@@ -109,7 +109,7 @@ const htmlContent = computed(() => richTextToHtml(props.content))
   }
 
   &__content-wrapper.is-open {
-    max-height: 1000px; // Большое значение для плавного раскрытия
+    max-height: 2000px; // Большое значение для плавного раскрытия
     opacity: 1;
   }
 
