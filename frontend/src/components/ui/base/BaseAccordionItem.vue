@@ -109,7 +109,7 @@ const htmlContent = computed(() => richTextToHtml(props.content))
   }
 
   &__content-wrapper.is-open {
-    max-height: 2000px; // Большое значение для плавного раскрытия
+    max-height: 3000px; // Большое значение для плавного раскрытия
     opacity: 1;
   }
 
@@ -142,7 +142,7 @@ const htmlContent = computed(() => richTextToHtml(props.content))
   opacity: 0;
 }
 .accordion-enter-to, .accordion-leave-from {
-  max-height: 2000px;
+  max-height: 3000px;
   opacity: 1;
 }
 </style>
