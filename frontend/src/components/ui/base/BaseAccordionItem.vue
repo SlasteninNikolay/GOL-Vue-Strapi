@@ -142,7 +142,7 @@ const htmlContent = computed(() => richTextToHtml(props.content))
   opacity: 0;
 }
 .accordion-enter-to, .accordion-leave-from {
-  max-height: 1000px;
+  max-height: 2000px;
   opacity: 1;
 }
 </style>
