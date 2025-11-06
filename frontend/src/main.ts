@@ -7,6 +7,7 @@ import { createHead } from '@vueuse/head'
 import 'virtual:svg-icons-register'
 import { IMaskDirective } from 'vue-imask'
 import { createYmaps } from 'vue-yandex-maps'
+import VueYandexMetrika from 'vue-yandex-metrika'
 import { appear } from './directives/gsap-appear'
 import { preloadObjects } from './cache/objectsCache'
 
@@ -21,6 +22,18 @@ app.use(
     lang: 'ru_RU',
   }),
 )
+app.use(VueYandexMetrika, {
+  id: 105125798,
+  router: router,
+  env: process.env.NODE_ENV,
+  options: {
+    webvisor: true,
+    clickmap: true,
+    trackLinks: true,
+    accurateTrackBounce: true,
+    ecommerce: "dataLayer"
+  }
+})
 app.directive('appear', appear)
 
 app.mount('#app')
