@@ -68,6 +68,10 @@ const onSubmit = async (values) => {
       message.value = 'Сообщение успешно отправлено!';
       messageType.value = 'success';
 
+      if (window.ym && props.params.endpoint === 'feedback') {
+        window.ym(105125798, 'reachGoal', 'zayavka');
+      }
+
       // Очищаем форму
       if (formRef.value) {
         formRef.value.resetForm();
