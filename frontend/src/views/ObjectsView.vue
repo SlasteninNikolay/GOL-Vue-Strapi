@@ -32,7 +32,7 @@ const fetchData = async () => {
   try {
     // Получаем объекты
     const [objectsRes, categoriesRes] = await Promise.all([
-      axios.get(`${API_URL}/objects?populate=*`, {
+      axios.get(`${API_URL}/objects?populate=*&pagination[pageSize]=100`, {
         headers: { Authorization: `Bearer ${TOKEN}` },
       }),
       axios.get(`${API_URL}/object-categories`, {
