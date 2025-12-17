@@ -87,8 +87,8 @@ export function richTextToHtml(blocks) {
           return `<p>${childrenToHtml(block.children)}</p>`
         case 'heading':
           // Обработка заголовков с учетом уровня
-          const level = block.level || 1
-          return `<h${level}>${childrenToHtml(block.children)}</h${level}>`
+          { const level = block.level || 1
+          return `<h${level}>${childrenToHtml(block.children)}</h${level}>` }
         case 'heading1':
           return `<h1>${childrenToHtml(block.children)}</h1>`
         case 'heading2':
@@ -96,10 +96,10 @@ export function richTextToHtml(blocks) {
         case 'heading3':
           return `<h3>${childrenToHtml(block.children)}</h3>`
         case 'list':
-          const listTag = block.format === 'unordered' ? 'ul' : 'ol'
+          { const listTag = block.format === 'unordered' ? 'ul' : 'ol'
           return `<${listTag}>${(block.children || [])
             .map((li) => `<li>${childrenToHtml(li.children)}</li>`)
-            .join('')}</${listTag}>`
+            .join('')}</${listTag}>` }
         case 'list-item':
           return `<li>${childrenToHtml(block.children)}</li>`
         default:

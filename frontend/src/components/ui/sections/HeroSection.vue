@@ -88,6 +88,11 @@ onMounted(async () => {
         >
           <BaseIcon name="arrow-prev" />
         </button>
+        <!-- <div id="block-search">
+          <div id="tl-search-form" class="tl-container">
+            <a href="https://www.travelline.ru/products/tl-hotel/" rel="nofollow" target="_blank">TravelLine</a>
+          </div>
+        </div> -->
         <button
           class="hero-slider__nav-btn hero-slider__nav-btn--next arrow-next"
         >
@@ -99,6 +104,20 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
+#block-search,
+#block-search * {
+  box-sizing: border-box;
+}
+
+#block-search {
+  width: 100%;
+  pointer-events: all;
+}
+
+.tl-container {
+  padding: 0 30px;
+}
+
 .hero-section {
   position: relative;
 }

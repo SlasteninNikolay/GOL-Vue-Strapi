@@ -147,6 +147,15 @@ export const routes = [
     },
   },
   {
+    path: '/booking',
+    name: 'booking',
+    component: () => import('@/views/BookingView.vue'),
+    props: true,
+    meta: {
+      breadcrumb: (route) => route.params.title || route.params.slug
+    },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('@/views/NotFoundView.vue'),

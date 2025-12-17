@@ -30,7 +30,6 @@ export const preloadObjects = async () => {
       objectsCache.set(object.slug, object.title)
     })
 
-    // Теперь для каждого объекта загружаем его комнаты
     const objectSlugs = Array.from(objectsCache.keys())
 
     for (const slug of objectSlugs) {

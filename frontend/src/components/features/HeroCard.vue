@@ -36,6 +36,18 @@ defineProps({
 </template>
 
 <style scoped lang="scss">
+#block-search,
+#block-search * {
+  box-sizing: border-box;
+}
+
+#block-search {
+}
+
+.tl-container {
+  padding: 0 30px;
+}
+
 .hero-card {
   position: relative;
   height: 100%;

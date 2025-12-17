@@ -67,18 +67,12 @@ const categories = [
   ]
 
 const navigateToCategory = (category) => {
-  try {
-    router.push({
-      name: 'ObjectsView',
-      query: {
-        category: category.slug
-      }
-    })
-  } catch (error) {
-    console.error('Navigation error:', error)
-    // Fallback navigation
-    window.location.href = category.link
-  }
+  router.push({
+    name: 'objects',
+    query: {
+      category: category.slug
+    }
+  })
 }
 
 onMounted(() => {
