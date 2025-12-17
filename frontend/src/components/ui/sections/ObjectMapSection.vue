@@ -11,6 +11,7 @@ const svgRef = ref(null)
 const categories = [
   {
     id: 1,
+    categoryId: 5,
     title: 'Отели 3*',
     slug: 'hotels-3',
     link: '/objects?category=5',
@@ -20,6 +21,7 @@ const categories = [
   },
   {
     id: 2,
+    categoryId: 6,
     title: 'Отели 4*',
     slug: 'hotels-4',
     link: '/objects?category=6',
@@ -29,6 +31,7 @@ const categories = [
   },
   {
     id: 3,
+    categoryId: 8,
     title: 'Рестораны',
     slug: 'restaurants',
     link: '/objects?category=8',
@@ -39,6 +42,7 @@ const categories = [
   // Нижние категории
   {
     id: 4,
+    categoryId: 10,
     title: 'Горнолыжные курорты',
     slug: 'ski',
     link: '/objects?category=10',
@@ -48,6 +52,7 @@ const categories = [
   },
   {
     id: 5,
+    categoryId: 12,
     title: 'Санатории',
     slug: 'sanatorium',
     link: '/objects?category=12',
@@ -57,6 +62,7 @@ const categories = [
   },
   {
     id: 6,
+    categoryId: 14,
     title: 'Другое',
     slug: 'other',
     link: '/objects?category=14',
@@ -68,9 +74,9 @@ const categories = [
 
 const navigateToCategory = (category) => {
   router.push({
-    name: 'objects',
+    path: '/objects',
     query: {
-      category: category.slug
+      category: category.categoryId
     }
   })
 }

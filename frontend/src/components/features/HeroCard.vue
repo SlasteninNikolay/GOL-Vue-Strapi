@@ -27,10 +27,10 @@ defineProps({
     <div class="hero-card__content container">
       <div class="hero-card__title">
         {{ title }}
-        <RouterLink :to="`objects/${slug}`" class="hero-card__title-link" />
+        <RouterLink :to="`/objects/${slug}`" class="hero-card__title-link" />
       </div>
       <div class="hero-card__subtitle h4">{{ subtitle }}</div>
-      <RouterLink :to="`objects/${slug}`" class="hero-card__more">Подробнее</RouterLink>
+      <RouterLink :to="`/objects/${slug}`" class="hero-card__more">Подробнее</RouterLink>
     </div>
   </div>
 </template>
