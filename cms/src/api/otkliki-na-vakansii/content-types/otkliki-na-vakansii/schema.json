@@ -67,6 +67,14 @@
       },
       "required": true,
       "default": false
+    },
+    "resume": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "files"
+      ]
     }
   }
 }

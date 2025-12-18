@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, shallowRef, watch } from 'vue'
+import { computed, onMounted, ref, shallowRef, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@vueuse/head'
 import axios from 'axios'
@@ -140,10 +140,79 @@ const fetchObjectBySlug = async (slug) => {
       objectData.value?.coordinates[0],
       objectData.value?.coordinates[1],
     ]
+    
+    // Инициализируем Travelline после загрузки данных
+    await nextTick()
+    setTimeout(() => {
+      initTravelline()
+    }, 1000)
   } catch (e) {
     error.value = e
   } finally {
     loading.value = false
+  }
+}
+
+// Инициализация Travelline для страницы объекта
+const initTravelline = () => {
+  const travellineId = objectData.value?.travelline_id
+  
+  console.log('ObjectsSingleView - initTravelline called')
+  console.log('travellineId:', travellineId)
+  console.log('objectData:', objectData.value)
+  
+  if (!travellineId) {
+    console.warn('No travelline_id found for this object')
+    return
+  }
+  
+  if (window.travelline && window.travelline.integration) {
+    const containerId = `tl-search-form-${travellineId}`
+    const element = document.getElementById(containerId)
+    
+    console.log('Container ID:', containerId)
+    console.log('Element found:', element)
+    console.log('Element has tl-initialized class:', element?.classList.contains('tl-initialized'))
+    
+    if (element) {
+      try {
+        const ti = window.travelline.integration
+        
+        console.log('Calling embed directly...')
+        console.log('ti methods:', Object.keys(ti))
+        
+        // Вызываем embed напрямую
+        if (typeof ti.embed === 'function') {
+          ti.embed('search-form', {
+            container: containerId,
+            context: `TL-INT-legenda-hotels-ru_2025-10-28.${travellineId}`,
+            language: 'ru'
+          })
+          console.log('embed() called directly')
+        } else {
+          console.warn('embed method not found')
+        }
+        
+        // Проверяем загрузку
+        setTimeout(() => {
+          const iframe = element.querySelector('iframe')
+          if (iframe) {
+            console.log('Travelline form loaded successfully!')
+            element.classList.add('tl-initialized')
+          } else {
+            console.warn('Travelline form not loaded after 2 seconds')
+          }
+        }, 2000)
+      } catch (error) {
+        console.warn(`Ошибка инициализации Travelline:`, error)
+      }
+    } else if (!element) {
+      console.warn(`Element ${containerId} not found in DOM`)
+    } else {
+      console.log(`Element ${containerId} already initialized`)
+    }
+  } else {
+    console.warn('Travelline integration not available')
   }
 }
 
@@ -218,6 +287,13 @@ onMounted(async () => {
           :src="objectData?.video_url"
           :poster="objectData?.video_poster"
         />
+        
+        <!-- Форма Travelline для объектов с travelline_id -->
+        <div v-if="objectData?.travelline_id" class="video-section__booking">
+          <div :id="`tl-search-form-${objectData.travelline_id}`" class="tl-container">
+            <a href="https://www.travelline.ru/products/tl-hotel/" rel="nofollow" target="_blank">TravelLine</a>
+          </div>
+        </div>
       </div>
     </section>
     <AppSection class="bio-section _pattern" :title="objectData?.slogan">
@@ -381,6 +457,15 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
+#block-search,
+#block-search * {
+  box-sizing: border-box;
+}
+
+.tl-container {
+  padding: 0 30px;
+}
+
 :deep(.section__header) {
   position: relative;
 
@@ -393,6 +478,29 @@ onMounted(async () => {
     height: 100%;
     background-color: var(--gray-gradient);
     z-index: -1;
+  }
+}
+
+.video-section {
+  position: relative;
+  
+  &__booking {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    z-index: 10;
+    
+    @include tablet {
+      position: relative;
+      bottom: auto;
+      left: auto;
+      transform: none;
+      width: 100%;
+      margin-top: 20px;
+    }
   }
 }
 

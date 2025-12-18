@@ -784,6 +784,12 @@ export interface ApiObjectObject extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
+    travelline_id: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     type: Schema.Attribute.Enumeration<
       [
         '\u041E\u0442\u0435\u043B\u044C',
@@ -893,6 +899,7 @@ export interface ApiOtklikiNaVakansiiOtklikiNaVakansii
         };
       }>;
     publishedAt: Schema.Attribute.DateTime;
+    resume: Schema.Attribute.Media<'files'> & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

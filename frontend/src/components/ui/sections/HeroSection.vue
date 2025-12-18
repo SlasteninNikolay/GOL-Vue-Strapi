@@ -1,7 +1,7 @@
 <script setup>
 import { Autoplay, EffectFade, Pagination, Navigation, Manipulation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, nextTick } from 'vue'
 import axios from 'axios'
 import { API_URL, TOKEN } from '@/utils/constants.js'
 import BaseIcon from '@/components/ui/base/BaseIcon.vue'
@@ -20,7 +20,7 @@ const loading = ref(false)
 const fetchData = async () => {
   try {
     const response = await axios.get(
-      `${API_URL}/banners?populate=*`,
+      `${API_URL}/banners?populate[object][fields][0]=slug&populate[object][fields][1]=travelline_id&populate[image][fields][0]=url&populate[image][fields][1]=formats`,
       {
         headers: { Authorization: `Bearer ${TOKEN}` },
       }
@@ -31,6 +31,41 @@ const fetchData = async () => {
     console.error('Ошибка при загрузке:', e)
   } finally {
     loading.value = false
+  }
+}
+
+// Инициализация Travelline для динамически созданных элементов
+const initTravelline = () => {
+  if (window.travelline && window.travelline.integration) {
+    const ti = window.travelline.integration
+    
+    bannerData.value.forEach((slide) => {
+      const travellineId = slide.object?.travelline_id
+      
+      if (travellineId) {
+        const containerId = `tl-search-form-${travellineId}`
+        const element = document.getElementById(containerId)
+        
+        if (element && !element.classList.contains('tl-initialized')) {
+          try {
+            if (!ti.__cq) ti.__cq = []
+            
+            ti.__cq.push(["setContext", `TL-INT-legenda-hotels-ru_2025-10-28.${travellineId}`, "ru"])
+            ti.__cq.push(["embed", "search-form", { container: containerId }])
+            
+            if (window.TL && window.TL.integration) {
+              window.TL.integration.run()
+            } else if (ti.run) {
+              ti.run()
+            }
+            
+            element.classList.add('tl-initialized')
+          } catch (error) {
+            console.warn(`Ошибка инициализации Travelline для объекта ${travellineId}:`, error)
+          }
+        }
+      }
+    })
   }
 }
 
@@ -52,11 +87,27 @@ const swiperOptions = {
   pagination: {
     el: '.hero-slider__pagination',
     clickable: true
+  },
+  on: {
+    slideChange: () => {
+      // Инициализируем Travelline при смене слайда
+      setTimeout(() => {
+        initTravelline()
+      }, 100)
+    }
   }
 }
 
 onMounted(async () => {
   await fetchData()
+  
+  // Ждем отрисовки DOM и инициализируем Travelline
+  await nextTick()
+  
+  // Задержка для полной загрузки скрипта Travelline
+  setTimeout(() => {
+    initTravelline()
+  }, 500)
 })
 </script>
 
@@ -77,6 +128,7 @@ onMounted(async () => {
           :title="slide.title"
           :subtitle="slide.subtitle"
           :slug="slide.object.slug"
+          :travelline-id="slide.object.travelline_id"
         />
       </SwiperSlide>
 

@@ -6,6 +6,7 @@ defineProps({
   title: String,
   subtitle: String,
   slug: String,
+  travellineId: String,
 })
 </script>
 
@@ -31,6 +32,13 @@ defineProps({
       </div>
       <div class="hero-card__subtitle h4">{{ subtitle }}</div>
       <RouterLink :to="`/objects/${slug}`" class="hero-card__more">Подробнее</RouterLink>
+      
+      <!-- Форма Travelline для объектов, которые в ней заведены -->
+      <div v-if="travellineId" id="block-search" class="hero-card__booking">
+        <div :id="`tl-search-form-${travellineId}`" class="tl-container">
+          <a href="https://www.travelline.ru/products/tl-hotel/" rel="nofollow" target="_blank">TravelLine</a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -108,6 +116,13 @@ defineProps({
       height: 0.75px;
       background-color: var(--color-gray);
     }
+  }
+
+  &__booking {
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    pointer-events: all;
   }
 
   &__picture {

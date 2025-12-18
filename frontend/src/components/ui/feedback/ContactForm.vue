@@ -25,6 +25,8 @@ const formRef = ref(null);
 const loading = ref(false);
 const message = ref('');
 const messageType = ref('');
+const selectedFile = ref(null);
+const fileError = ref('');
 
 const schema = yup.object({
   user_name: yup.string().required('Укажите ваше имя').min(2, 'Минимум 2 символа').max(30, 'Максимум 30 символов'),
@@ -37,9 +39,46 @@ const schema = yup.object({
     .required('Необходимо согласиться с условиями политики конфиденциальности')
 });
 
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  fileError.value = '';
+
+  if (!file) {
+    selectedFile.value = null;
+    return;
+  }
+
+  // Валидация типа файла
+  const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+  if (!allowedTypes.includes(file.type)) {
+    fileError.value = 'Допустимые форматы: PDF, DOC, DOCX';
+    selectedFile.value = null;
+    event.target.value = '';
+    return;
+  }
+
+  // Валидация размера файла
+  const maxSize = 5 * 1024 * 1024; // 5MB
+  if (file.size > maxSize) {
+    fileError.value = 'Размер файла не должен превышать 5 МБ';
+    selectedFile.value = null;
+    event.target.value = '';
+    return;
+  }
+
+  selectedFile.value = file;
+};
+
 const onSubmit = async (values) => {
   loading.value = true;
   message.value = '';
+
+  // Проверяем наличие файла для вакансий
+  if (props.params.endpoint === 'vacancy' && !selectedFile.value) {
+    fileError.value = 'Необходимо прикрепить резюме';
+    loading.value = false;
+    return;
+  }
 
   const endpoints = {
     'feedback': '/form-submissions',
@@ -47,22 +86,46 @@ const onSubmit = async (values) => {
   }
 
   try {
-    const response = await axios.post(
-      `${API_URL}${endpoints[props.params.endpoint]}`,
-      {
-        data: {
-          name: values.user_name,
-          phone: values.user_phone,
-          message: values.user_message,
-          city: values.user_city,
-          vacancy: values.user_vacancy,
-          accept_terms: values.accept_terms === "true"
+    let response;
+    
+    // Для вакансий отправляем multipart/form-data с файлом
+    if (props.params.endpoint === 'vacancy' && selectedFile.value) {
+      const formData = new FormData();
+      formData.append('resume', selectedFile.value);
+      formData.append('data', JSON.stringify({
+        name: values.user_name,
+        phone: values.user_phone,
+        message: values.user_message,
+        city: values.user_city,
+        vacancy: values.user_vacancy,
+        accept_terms: values.accept_terms === "true"
+      }));
+
+      response = await axios.post(
+        `${API_URL}${endpoints[props.params.endpoint]}`,
+        formData,
+        {
+          headers: { Authorization: `Bearer ${TOKEN}` }
         }
-      },
-      {
-        headers: { Authorization: `Bearer ${TOKEN}` }
-      }
-    );
+      );
+    } else {
+      response = await axios.post(
+        `${API_URL}${endpoints[props.params.endpoint]}`,
+        {
+          data: {
+            name: values.user_name,
+            phone: values.user_phone,
+            message: values.user_message,
+            city: values.user_city,
+            vacancy: values.user_vacancy,
+            accept_terms: values.accept_terms === "true"
+          }
+        },
+        {
+          headers: { Authorization: `Bearer ${TOKEN}` }
+        }
+      );
+    }
 
     if (response.data.data) {
       message.value = 'Сообщение успешно отправлено!';
@@ -76,6 +139,8 @@ const onSubmit = async (values) => {
       if (formRef.value) {
         formRef.value.resetForm();
       }
+      selectedFile.value = null;
+      fileError.value = '';
     }
 
   } catch (error) {
@@ -116,6 +181,23 @@ const onSubmit = async (values) => {
       <ErrorMessage name="user_message" v-slot="{ message }">
         <span :class="['contact-form__message', { showed: message }]">{{ message }}</span>
       </ErrorMessage>
+    </div>
+    <div v-if="params?.endpoint === 'vacancy'" class="contact-form__group">
+      <label class="contact-form__file-label">
+        <input
+          type="file"
+          @change="handleFileChange"
+          accept=".pdf,.doc,.docx"
+          class="contact-form__file-input"
+        />
+        <span class="contact-form__file-button">
+          {{ selectedFile ? selectedFile.name : 'Прикрепить резюме *' }}
+        </span>
+      </label>
+      <span v-if="fileError" class="contact-form__message showed">{{ fileError }}</span>
+      <span v-else-if="selectedFile" class="contact-form__file-info">
+        {{ (selectedFile.size / 1024).toFixed(2) }} KB
+      </span>
     </div>
     <div class="contact-form__group">
       <button
@@ -294,6 +376,40 @@ const onSubmit = async (values) => {
       color: #721c24;
       border: 1px solid #f5c6cb;
     }
+  }
+
+  &__file-label {
+    display: block;
+    cursor: pointer;
+  }
+
+  &__file-input {
+    display: none;
+  }
+
+  &__file-button {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px dashed var(--theme-color);
+    background-color: transparent;
+    color: var(--theme-color);
+    text-align: center;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+
+    &:hover {
+      border-color: var(--theme-color-button);
+      background-color: var(--theme-bg-button-hover);
+    }
+  }
+
+  &__file-info {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--theme-color-light);
   }
 }
 </style>

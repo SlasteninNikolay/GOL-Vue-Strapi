@@ -17,6 +17,18 @@ export default factories.createCoreController(
     ({ strapi }) => ({
         async create(ctx) {
             try {
+                // Проверяем наличие файла
+                const files = ctx.request.files;
+                let resumeId = null;
+
+                if (files?.resume) {
+                    const uploadedFiles = await strapi.plugins['upload'].services.upload.upload({
+                        data: {},
+                        files: files.resume,
+                    });
+                    resumeId = uploadedFiles[0]?.id;
+                }
+
                 const sanitizedInput = await this.sanitizeInput(ctx.request.body, ctx);
                 const { data } = sanitizedInput as { data: FormData };
                 const { name, phone, city, vacancy, accept_terms } = data;
@@ -28,13 +40,26 @@ export default factories.createCoreController(
                         phone,
                         city,
                         vacancy,
-                        accept_terms: accept_terms === "true" || accept_terms === true
+                        accept_terms: accept_terms === "true" || accept_terms === true,
+                        resume: resumeId
                     },
                 });
 
                 // Отправляем email с noreply ящика
                 if (process.env.SEND_EMAILS !== 'false') {
                     try {
+                        // Получаем информацию о файле
+                        let resumeInfo = '';
+                        if (resumeId) {
+                            const file = await strapi.db.query('plugin::upload.file').findOne({
+                                where: { id: resumeId }
+                            });
+                            if (file) {
+                                const fileUrl = file.url.startsWith('http') ? file.url : `${process.env.PUBLIC_URL || 'http://localhost:1337'}${file.url}`;
+                                resumeInfo = `<p><strong>📎 Резюме:</strong> <a href="${fileUrl}">${file.name}</a> (${(file.size / 1024).toFixed(2)} KB)</p>`;
+                            }
+                        }
+
                         await strapi.plugins['email'].services.email.send({
                             to: process.env.SMTP_TO_ADMIN || 'slastenindev@gmail.com',
                             from: process.env.SMTP_DEFAULT_FROM,
@@ -48,7 +73,8 @@ export default factories.createCoreController(
                                     <p><strong>👤 Имя:</strong> ${name}</p>
                                     <p><strong>📞 Телефон:</strong> <a href="tel:${phone}">${phone}</a></p>
                                     <p><strong>🏙️ Город:</strong> ${city}</p>    
-                                    <p><strong>🧑‍💼 Вакансия:</strong> ${vacancy}</p>                                                                         
+                                    <p><strong>🧑‍💼 Вакансия:</strong> ${vacancy}</p>
+                                    ${resumeInfo}
                                     <p><strong>✅ Согласие с политикой:</strong> ${accept_terms ? 'Да' : 'Нет'}</p>
                                     <p><strong>📅 Дата получения:</strong> ${new Date().toLocaleString('ru-RU')}</p>
                                   </div>

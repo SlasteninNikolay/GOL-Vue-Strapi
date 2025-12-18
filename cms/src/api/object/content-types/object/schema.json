@@ -240,6 +240,14 @@
         }
       },
       "inversedBy": "objects"
+    },
+    "travelline_id": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     }
   }
 }
