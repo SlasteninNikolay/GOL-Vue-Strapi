@@ -899,7 +899,7 @@ export interface ApiOtklikiNaVakansiiOtklikiNaVakansii
         };
       }>;
     publishedAt: Schema.Attribute.DateTime;
-    resume: Schema.Attribute.Media<'files'> & Schema.Attribute.Required;
+    resume: Schema.Attribute.Media<'files'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
