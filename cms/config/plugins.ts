@@ -29,5 +29,10 @@ export default ({ env }) => ({
                 defaultReplyTo: env('SMTP_DEFAULT_REPLY_TO'),
             },
         },
-    }
+    },
+    upload: {
+        config: {
+            sizeLimit: 10 * 1024 * 1024, // 10MB
+        },
+    },
 });
