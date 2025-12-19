@@ -94,8 +94,6 @@ export default factories.createCoreController(
                               `,
                         });
 
-                        console.log('✅ Email уведомление отправлено с noreply ящика');
-
                     } catch (emailError) {
                         console.error('❌ Ошибка отправки email:', emailError);
                     }

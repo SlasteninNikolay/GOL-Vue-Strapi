@@ -140,7 +140,7 @@ const fetchObjectBySlug = async (slug) => {
       objectData.value?.coordinates[0],
       objectData.value?.coordinates[1],
     ]
-    
+
     // Инициализируем Travelline после загрузки данных
     await nextTick()
     setTimeout(() => {
@@ -156,31 +156,20 @@ const fetchObjectBySlug = async (slug) => {
 // Инициализация Travelline для страницы объекта
 const initTravelline = () => {
   const travellineId = objectData.value?.travelline_id
-  
-  console.log('ObjectsSingleView - initTravelline called')
-  console.log('travellineId:', travellineId)
-  console.log('objectData:', objectData.value)
-  
+
   if (!travellineId) {
     console.warn('No travelline_id found for this object')
     return
   }
-  
+
   if (window.travelline && window.travelline.integration) {
     const containerId = `tl-search-form-${travellineId}`
     const element = document.getElementById(containerId)
-    
-    console.log('Container ID:', containerId)
-    console.log('Element found:', element)
-    console.log('Element has tl-initialized class:', element?.classList.contains('tl-initialized'))
-    
+
     if (element) {
       try {
         const ti = window.travelline.integration
-        
-        console.log('Calling embed directly...')
-        console.log('ti methods:', Object.keys(ti))
-        
+
         // Вызываем embed напрямую
         if (typeof ti.embed === 'function') {
           ti.embed('search-form', {
@@ -188,11 +177,11 @@ const initTravelline = () => {
             context: `TL-INT-legenda-hotels-ru_2025-10-28.${travellineId}`,
             language: 'ru'
           })
-          console.log('embed() called directly')
+
         } else {
           console.warn('embed method not found')
         }
-        
+
         // Проверяем загрузку
         setTimeout(() => {
           const iframe = element.querySelector('iframe')
@@ -286,7 +275,7 @@ onMounted(async () => {
           :src="objectData?.video_url"
           :poster="objectData?.video_poster"
         />
-        
+
         <!-- Форма Travelline для объектов с travelline_id -->
         <div v-if="objectData?.travelline_id" class="video-section__booking">
           <div :id="`tl-search-form-${objectData.travelline_id}`" class="tl-container">
@@ -482,7 +471,7 @@ onMounted(async () => {
 
 .video-section {
   position: relative;
-  
+
   &__booking {
     position: absolute;
     bottom: 30px;
@@ -491,7 +480,7 @@ onMounted(async () => {
     width: 90%;
     max-width: 1200px;
     z-index: 10;
-    
+
     @include tablet {
       position: relative;
       bottom: auto;

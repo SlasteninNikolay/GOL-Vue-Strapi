@@ -108,7 +108,6 @@ const fetchObjects = async () => {
     error.value = e
   } finally {
     loading.value = false
-    console.log(objectsData.value)
   }
 }
 
