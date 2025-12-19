@@ -22,13 +22,16 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { getObjectNameBySlug, getRoomTitleBySlug } from '@/cache/objectsCache.js'
+import { getObjectNameBySlug, getRoomTitleBySlug, loadObjectBySlug, loadRoomBySlug } from '@/cache/objectsCache.js'
 
 const route = useRoute()
+const forceUpdate = ref(0)
 
 const breadcrumbs = computed(() => {
+  // eslint-disable-next-line no-unused-vars
+  const _ = forceUpdate.value // Для принудительного обновления
   const crumbs = []
   const matched = route.matched.filter(r => r.meta && r.meta.breadcrumb)
 
@@ -39,10 +42,18 @@ const breadcrumbs = computed(() => {
       text: 'Портфолио',
       to: '/objects'
     })
-    crumbs.push({
-      text: getObjectNameBySlug(route.params.slug),
-      to: null // Текущая страница
-    })
+    const objectName = getObjectNameBySlug(route.params.slug)
+    if (objectName) {
+      crumbs.push({
+        text: objectName,
+        to: null // Текущая страница
+      })
+    } else {
+      // Загружаем асинхронно, если не в кэше
+      loadObjectBySlug(route.params.slug).then(() => {
+        forceUpdate.value++
+      })
+    }
   }
   else if (route.name === 'object-room' && route.params.slug && route.params.roomSlug) {
     // Для страницы комнаты: Главная → Портфолио → Название объекта → Название комнаты
@@ -50,14 +61,30 @@ const breadcrumbs = computed(() => {
       text: 'Портфолио',
       to: '/objects'
     })
-    crumbs.push({
-      text: getObjectNameBySlug(route.params.slug),
-      to: `/objects/${route.params.slug}`
-    })
-    crumbs.push({
-      text: getRoomTitleBySlug(route.params.roomSlug),
-      to: null // Текущая страница
-    })
+    const objectName = getObjectNameBySlug(route.params.slug)
+    if (objectName) {
+      crumbs.push({
+        text: objectName,
+        to: `/objects/${route.params.slug}`
+      })
+    } else {
+      // Загружаем асинхронно, если не в кэше
+      loadObjectBySlug(route.params.slug).then(() => {
+        forceUpdate.value++
+      })
+    }
+    const roomTitle = getRoomTitleBySlug(route.params.roomSlug)
+    if (roomTitle) {
+      crumbs.push({
+        text: roomTitle,
+        to: null // Текущая страница
+      })
+    } else {
+      // Загружаем асинхронно, если не в кэше
+      loadRoomBySlug(route.params.roomSlug).then(() => {
+        forceUpdate.value++
+      })
+    }
   }
   else {
     // Стандартная обработка для остальных маршрутов
