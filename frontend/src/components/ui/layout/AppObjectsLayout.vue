@@ -5,6 +5,6 @@ import AppBreadcrumbs from '@/components/ui/navigation/AppBreadcrumbs.vue'
 <template>
   <div>
     <AppBreadcrumbs />
-    <router-view />
+    <router-view :key="$route.name" />
   </div>
 </template>

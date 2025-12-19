@@ -3,6 +3,11 @@ import '@/scss/main.scss'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+
+// Отключаем нативное восстановление скролла браузером
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual'
+}
 import { createHead } from '@vueuse/head'
 import 'virtual:svg-icons-register'
 import { IMaskDirective } from 'vue-imask'

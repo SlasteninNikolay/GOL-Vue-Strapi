@@ -7,16 +7,24 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    }
-    if (to.hash) {
-      return {
-        el: to.hash,
-        behavior: 'smooth',
-      }
-    }
-    return { top: 0, left: 0, behavior: 'instant' }
+    return new Promise((resolve) => {
+      // Ждем окончания анимации перехода (650ms + небольшой запас)
+      setTimeout(() => {
+        if (savedPosition) {
+          // Восстанавливаем сохраненную позицию при навигации назад/вперед
+          resolve(savedPosition)
+        } else if (to.hash) {
+          // Скроллим к якорю, если указан hash
+          resolve({
+            el: to.hash,
+            behavior: 'smooth',
+          })
+        } else {
+          // Всегда скроллим наверх при обычной навигации
+          resolve({ top: 0, left: 0, behavior: 'instant' })
+        }
+      }, 700)
+    })
   },
   linkActiveClass: 'router-link-active',
   linkExactActiveClass: 'router-link-exact-active',
