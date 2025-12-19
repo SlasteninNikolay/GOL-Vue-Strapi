@@ -103,10 +103,7 @@ const onSubmit = async (values) => {
 
       response = await axios.post(
         `${API_URL}${endpoints[props.params.endpoint]}`,
-        formData,
-        {
-          headers: { Authorization: `Bearer ${TOKEN}` }
-        }
+        formData
       );
     } else {
       response = await axios.post(
@@ -120,9 +117,6 @@ const onSubmit = async (values) => {
             vacancy: values.user_vacancy,
             accept_terms: values.accept_terms === "true"
           }
-        },
-        {
-          headers: { Authorization: `Bearer ${TOKEN}` }
         }
       );
     }
