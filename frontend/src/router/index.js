@@ -7,8 +7,15 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) return savedPosition
-    window.scrollTo(0, 0)
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (savedPosition) {
+          resolve(savedPosition)
+        } else {
+          resolve({ top: 0, left: 0, behavior: 'instant' })
+        }
+      }, 50)
+    })
   },
   linkActiveClass: 'navbar__menu-link--active',
 })
