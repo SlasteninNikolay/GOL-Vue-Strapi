@@ -53,16 +53,14 @@ export const routes = [
     meta: {
       breadcrumb: 'Карьера',
     },
-    children: [
-      {
-        path: '/vacancies/:id',
-        name: 'vacancies-single',
-        component: () => import('@/views/VacanciesSingleView.vue'),
-        meta: {
-          breadcrumb: (route) => route.params.slug
-        }
-      },
-    ],
+  },
+  {
+    path: '/vacancies/:id',
+    name: 'vacancies-single',
+    component: () => import('@/views/VacanciesSingleView.vue'),
+    meta: {
+      breadcrumb: (route) => route.params.slug
+    }
   },
   {
     path: '/contacts',

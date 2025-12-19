@@ -7,17 +7,19 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        if (savedPosition) {
-          resolve(savedPosition)
-        } else {
-          resolve({ top: 0, left: 0, behavior: 'instant' })
-        }
-      }, 50)
-    })
+    if (savedPosition) {
+      return savedPosition
+    }
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth',
+      }
+    }
+    return { top: 0, left: 0, behavior: 'instant' }
   },
-  linkActiveClass: 'navbar__menu-link--active',
+  linkActiveClass: 'router-link-active',
+  linkExactActiveClass: 'router-link-exact-active',
 })
 
 router.beforeEach(async (to, from, next) => {
@@ -35,8 +37,7 @@ router.afterEach((to) => {
 router.onError((error) => {
   console.error('Router error:', error)
   if (error.message.includes('Failed to fetch dynamically imported module')) {
-    set404Status()
-    return { name: 'not-found' }
+    window.location.reload()
   }
 })
 

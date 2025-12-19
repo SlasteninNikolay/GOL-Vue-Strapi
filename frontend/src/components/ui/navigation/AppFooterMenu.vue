@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import BaseGrid from '@/components/ui/base/BaseGrid.vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter();
 </script>
 
 <template>
@@ -27,10 +24,10 @@ const router = useRouter();
         О компании
       </h4>
       <ul class="footer-menu__list">
-        <li class="footer-menu__list-item link" @click="router.push({ path: '/about' })">О нас</li>
-        <li class="footer-menu__list-item link" @click="router.push({ path: '/objects' })">Объекты</li>
-        <li class="footer-menu__list-item link" @click="router.push({ path: '/vacancies' })">Карьера</li>
-        <li class="footer-menu__list-item link" @click="router.push({ path: '/contacts' })">Контакты</li>
+        <li class="footer-menu__list-item"><RouterLink class="link" to="/about">О нас</RouterLink></li>
+        <li class="footer-menu__list-item"><RouterLink class="link" to="/objects">Объекты</RouterLink></li>
+        <li class="footer-menu__list-item"><RouterLink class="link" to="/vacancies">Карьера</RouterLink></li>
+        <li class="footer-menu__list-item"><RouterLink class="link" to="/contacts">Контакты</RouterLink></li>
       </ul>
     </div>
     <div class="footer-menu__item">
@@ -38,7 +35,7 @@ const router = useRouter();
         Блог
       </h4>
       <ul class="footer-menu__list">
-        <li class="footer-menu__list-item link" @click="router.push({ path: '/blog' })">Новости</li>
+        <li class="footer-menu__list-item"><RouterLink class="link" to="/blog">Новости</RouterLink></li>
       </ul>
     </div>
     <div class="footer-menu__item">
@@ -46,9 +43,9 @@ const router = useRouter();
         Информация
       </h4>
       <ul class="footer-menu__list">
-        <li class="footer-menu__list-item link" @click="router.push({ path: '/pages/polzovatelskoe-soglashenie' })">Пользовательское соглашение</li>
-        <li class="footer-menu__list-item link" @click="router.push({ path: '/loyalty-program' })">Программа лояльности</li>
-        <li class="footer-menu__list-item link" @click="router.push({ path: '/pages/politika-konfidencialnosti' })">Политика конфиденциальности</li>
+        <li class="footer-menu__list-item"><RouterLink class="link" to="/pages/polzovatelskoe-soglashenie">Пользовательское соглашение</RouterLink></li>
+        <li class="footer-menu__list-item"><RouterLink class="link" to="/loyalty-program">Программа лояльности</RouterLink></li>
+        <li class="footer-menu__list-item"><RouterLink class="link" to="/pages/politika-konfidencialnosti">Политика конфиденциальности</RouterLink></li>
       </ul>
     </div>
   </BaseGrid>

@@ -129,6 +129,24 @@ const handleNavbarOnScroll = () => {
       color: var(--color-primary);
       line-height: 1;
       text-transform: uppercase;
+      position: relative;
+
+      &.link {
+        align-items: center;
+        height: 100%;
+      }
+
+      &.link.router-link-active {
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 0px;
+          width: 100%;
+          height: 2px;
+          background-color: var(--color-primary);
+        }
+      }
     }
   }
 

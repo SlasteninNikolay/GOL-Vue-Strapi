@@ -176,6 +176,20 @@ onMounted(async () => {
 
       font-weight: 400;
       color: var(--color-white);
+      position: relative;
+      display: inline-block;
+
+      &.router-link-active {
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 2px;
+          background-color: var(--color-white);
+        }
+      }
     }
   }
 
