@@ -2,17 +2,6 @@
  * otkliki-na-vakansii router
  */
 
-export default {
-  routes: [
-    {
-      method: 'POST',
-      path: '/otkliki-na-vakansiis',
-      handler: 'otkliki-na-vakansii.create',
-      config: {
-        auth: false, // Отключаем аутентификацию для публичного доступа
-        policies: [],
-        middlewares: [],
-      },
-    },
-  ],
-};
+import { factories } from '@strapi/strapi';
+
+export default factories.createCoreRouter('api::otkliki-na-vakansii.otkliki-na-vakansii');

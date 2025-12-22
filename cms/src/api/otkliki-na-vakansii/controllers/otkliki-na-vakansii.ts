@@ -4,12 +4,17 @@
 
 import { factories } from '@strapi/strapi';
 
-interface FormData {
+// Используем any для обхода строгих типов Strapi v5
+interface EntryData {
     name: string;
     phone: string;
-    city: string;
-    vacancy: string;
-    accept_terms: boolean | string;
+    city?: string | null;
+    vacancy?: string | null;
+    message?: string | null;
+    accept_terms: boolean;
+    locale?: string;
+    publishedAt?: string | null;
+    resume?: any;
 }
 
 export default factories.createCoreController(
@@ -17,97 +22,226 @@ export default factories.createCoreController(
     ({ strapi }) => ({
         async create(ctx) {
             try {
-                // Проверяем наличие файла
-                const files = ctx.request.files;
-                let resumeId = null;
+                strapi.log.info('📥 Получен запрос на создание отклика');
 
-                if (files?.resume) {
-                    const uploadedFiles = await strapi.plugins['upload'].services.upload.upload({
-                        data: {},
-                        files: files.resume,
-                    });
-                    resumeId = uploadedFiles[0]?.id;
-                }
+                // Получаем данные из запроса
+                const requestBody = ctx.request.body as any;
 
-                const sanitizedInput = await this.sanitizeInput(ctx.request.body, ctx);
-                const { data } = sanitizedInput as { data: FormData };
-                const { name, phone, city, vacancy, accept_terms } = data;
+                // Логируем для отладки
+                strapi.log.info('📦 Request body:', JSON.stringify(requestBody, null, 2));
 
-                // Создаем запись
-                const entry = await strapi.service('api::otkliki-na-vakansii.otkliki-na-vakansii').create({
-                    data: {
-                        name,
-                        phone,
-                        city,
-                        vacancy,
-                        accept_terms: accept_terms === "true" || accept_terms === true,
-                        resume: resumeId
-                    },
-                });
+                // Определяем источник данных
+                let formData: any;
 
-                // Отправляем email с noreply ящика
-                if (process.env.SEND_EMAILS !== 'false') {
-                    try {
-                        // Получаем информацию о файле
-                        let resumeInfo = '';
-                        if (resumeId) {
-                            const file = await strapi.db.query('plugin::upload.file').findOne({
-                                where: { id: resumeId }
-                            });
-                            if (file) {
-                                const fileUrl = file.url.startsWith('http') ? file.url : `${process.env.PUBLIC_URL || 'http://localhost:1337'}${file.url}`;
-                                resumeInfo = `<p><strong>📎 Резюме:</strong> <a href="${fileUrl}">${file.name}</a> (${(file.size / 1024).toFixed(2)} KB)</p>`;
-                            }
-                        }
-
-                        await strapi.plugins['email'].services.email.send({
-                            to: process.env.SMTP_TO_ADMIN || 'slastenindev@gmail.com',
-                            from: process.env.SMTP_DEFAULT_FROM,
-                            replyTo: process.env.SMTP_DEFAULT_REPLY_TO,
-                            subject: '📋 Отклик на вакансию с сайта LEGENDA Hotels',
-                            html: `
-                                <div style="font-family: Montserrat, sans-serif; max-width: 600px;">
-                                  <h2 style="color: #244C60;">🔔 Новый отклик на вакансию</h2>
-                                  
-                                  <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #2563eb;">
-                                    <p><strong>👤 Имя:</strong> ${name}</p>
-                                    <p><strong>📞 Телефон:</strong> <a href="tel:${phone}">${phone}</a></p>
-                                    <p><strong>🏙️ Город:</strong> ${city}</p>    
-                                    <p><strong>🧑‍💼 Вакансия:</strong> ${vacancy}</p>
-                                    ${resumeInfo}
-                                    <p><strong>✅ Согласие с политикой:</strong> ${accept_terms ? 'Да' : 'Нет'}</p>
-                                    <p><strong>📅 Дата получения:</strong> ${new Date().toLocaleString('ru-RU')}</p>
-                                  </div>
-                                  
-                                  <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 6px;">
-                                    <p style="margin: 0; color: #244C60;">
-                                      <strong>⚠️ Внимание:</strong> Это автоматическое уведомление. 
-                                      Пожалуйста, не отвечайте на это письмо. 
-                                      Для связи используйте почту: ${process.env.SMTP_DEFAULT_REPLY_TO}
-                                    </p>
-                                  </div>
-                                  
-                                  <p style="color: #244C60; font-size: 12px; margin-top: 20px;">
-                                    © ${new Date().getFullYear()} LEGENDA Hotels. Все права защищены.
-                                  </p>
-                                </div>
-                              `,
-                        });
-
-                    } catch (emailError) {
-                        console.error('❌ Ошибка отправки email:', emailError);
+                if (requestBody && typeof requestBody === 'object') {
+                    // Формат Strapi v4/v5: { data: {...} }
+                    if (requestBody.data) {
+                        formData = requestBody.data;
+                    } else {
+                        // Прямой формат: {...}
+                        formData = requestBody;
                     }
                 } else {
-                    strapi.log.info('Email sending is disabled by SEND_EMAILS=false');
+                    return ctx.badRequest('Invalid request format');
                 }
 
-                // Возвращаем ответ
-                const sanitizedEntry = await this.sanitizeOutput(entry, ctx);
-                return this.transformResponse(sanitizedEntry);
+                strapi.log.info('📝 Form data:', formData);
 
-            } catch (error) {
-                strapi.log.error('Error:', error);
+                // Валидация обязательных полей
+                if (!formData?.name || !formData?.phone) {
+                    strapi.log.error('❌ Missing required fields');
+                    return ctx.badRequest('Name and phone are required');
+                }
+
+                // Подготавливаем данные для создания записи
+                const entryData: EntryData = {
+                    name: String(formData.name),
+                    phone: String(formData.phone),
+                    city: formData.city || null,
+                    vacancy: formData.vacancy || null,
+                    message: formData.message || null,
+                    accept_terms: formData.accept_terms === true || formData.accept_terms === "true",
+                    locale: formData.locale || 'ru',
+                    publishedAt: null
+                };
+
+                // Добавляем resume ID если есть
+                if (formData.resume) {
+                    entryData.resume = formData.resume;
+                    strapi.log.info('📎 Resume file ID:', formData.resume);
+                }
+
+                strapi.log.info('🎯 Creating entry with data:', entryData);
+
+                // Создаем запись
+                const entry = await strapi.entityService.create(
+                    'api::otkliki-na-vakansii.otkliki-na-vakansii',
+                    {
+                        data: entryData,
+                        populate: ['resume']
+                    }
+                ) as any; // Используем any для обхода типов
+
+                strapi.log.info('✅ Entry created successfully, ID:', entry.id);
+
+                // Отправляем email (опционально)
+                if (process.env.SEND_EMAILS !== 'false') {
+                    try {
+                        await sendEmailNotification(entry, strapi);
+                    } catch (emailError) {
+                        strapi.log.error('⚠️ Email sending error:', emailError);
+                    }
+                }
+
+                // Подготавливаем ответ
+                const response = {
+                    data: {
+                        id: entry.id,
+                        attributes: {
+                            name: entry.name,
+                            phone: entry.phone,
+                            city: entry.city,
+                            vacancy: entry.vacancy,
+                            message: entry.message,
+                            accept_terms: entry.accept_terms,
+                            locale: entry.locale,
+                            createdAt: entry.createdAt,
+                            updatedAt: entry.updatedAt,
+                            publishedAt: entry.publishedAt
+                        }
+                    }
+                };
+
+                // Добавляем resume в ответ если есть
+                if (entry.resume) {
+                    (response.data.attributes as any).resume = entry.resume;
+                }
+
+                return ctx.created(response);
+
+            } catch (error: any) {
+                strapi.log.error('💥 Error creating application:', error);
+                return ctx.badRequest('Error creating application', {
+                    details: {
+                        message: error.message
+                    }
+                });
             }
         }
     })
 );
+
+// Отдельная функция для отправки email
+async function sendEmailNotification(entry: any, strapi: any) {
+    try {
+        let resumeInfo = '';
+
+        // Получаем информацию о файле если он привязан
+        if (entry.resume?.id) {
+            const file = await strapi.db.query('plugin::upload.file').findOne({
+                where: { id: entry.resume.id }
+            });
+
+            if (file) {
+                const publicUrl = process.env.PUBLIC_URL || 'http://localhost:1337';
+                const fileUrl = file.url.startsWith('http')
+                    ? file.url
+                    : `${publicUrl}${file.url}`;
+
+                resumeInfo = `
+          <div style="margin: 15px 0; padding: 15px; background: #e8f4fd; border-radius: 6px;">
+            <p style="margin: 0 0 10px 0; font-weight: 600;">📎 Прикрепленное резюме:</p>
+            <p style="margin: 5px 0;">
+              <strong>Файл:</strong> 
+              <a href="${fileUrl}" target="_blank" style="color: #2563eb;">${file.name}</a>
+            </p>
+            <p style="margin: 5px 0;">
+              <strong>Размер:</strong> ${(file.size / 1024).toFixed(2)} KB
+            </p>
+            <p style="margin: 5px 0;">
+              <strong>Формат:</strong> ${file.ext.toUpperCase()}
+            </p>
+          </div>
+        `;
+            }
+        }
+
+        // HTML шаблон письма
+        const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body { font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; }
+          .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+          .header { background: #244C60; color: white; padding: 20px; border-radius: 8px 8px 0 0; }
+          .content { background: #f8f9fa; padding: 25px; }
+          .field { margin-bottom: 12px; }
+          .field-label { font-weight: 600; color: #244C60; display: inline-block; width: 120px; }
+          .footer { margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 6px; font-size: 14px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h2 style="margin: 0;">📋 Новый отклик на вакансию</h2>
+            <p style="margin: 5px 0 0 0; opacity: 0.9;">LEGENDA Hotels</p>
+          </div>
+          
+          <div class="content">
+            <div class="field">
+              <span class="field-label">👤 Имя:</span> ${entry.name}
+            </div>
+            <div class="field">
+              <span class="field-label">📞 Телефон:</span> 
+              <a href="tel:${entry.phone}" style="color: #2563eb; text-decoration: none;">${entry.phone}</a>
+            </div>
+            ${entry.city ? `<div class="field"><span class="field-label">🏙️ Город:</span> ${entry.city}</div>` : ''}
+            ${entry.vacancy ? `<div class="field"><span class="field-label">🧑‍💼 Вакансия:</span> ${entry.vacancy}</div>` : ''}
+            ${entry.message ? `
+              <div class="field">
+                <span class="field-label">💬 Сообщение:</span><br>
+                <div style="margin-top: 5px; padding: 10px; background: white; border-radius: 4px;">
+                  ${entry.message.replace(/\n/g, '<br>')}
+                </div>
+              </div>
+            ` : ''}
+            <div class="field">
+              <span class="field-label">✅ Согласие:</span> ${entry.accept_terms ? 'Да' : 'Нет'}
+            </div>
+            ${resumeInfo}
+            <div class="field">
+              <span class="field-label">📅 Дата:</span> ${new Date(entry.createdAt).toLocaleString('ru-RU')}
+            </div>
+          </div>
+          
+          <div class="footer">
+            <p style="margin: 0;">
+              <strong>⚠️ Внимание:</strong> Это автоматическое уведомление.
+            </p>
+          </div>
+          
+          <p style="text-align: center; margin-top: 25px; color: #6c757d; font-size: 12px;">
+            © ${new Date().getFullYear()} LEGENDA Hotels. Все права защищены.
+          </p>
+        </div>
+      </body>
+      </html>
+    `;
+
+        // Отправляем email
+        await strapi.plugin('email').service('email').send({
+            to: process.env.SMTP_TO_ADMIN || 'slastenindev@gmail.com',
+            from: process.env.SMTP_DEFAULT_FROM || 'noreply@example.com',
+            replyTo: process.env.SMTP_DEFAULT_REPLY_TO,
+            subject: '📋 Отклик на вакансию с сайта LEGENDA Hotels',
+            html
+        });
+
+        strapi.log.info('📧 Email notification sent');
+
+    } catch (error: any) {
+        strapi.log.error('❌ Email sending error:', error.message);
+    }
+}

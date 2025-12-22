@@ -16,7 +16,7 @@ services:
       PORT: ${VUE_PORT}
       HOST: ${HOST}
       API_TOKEN: ${STRAPI_TOKEN}
-      API_URL: ${STRAPI_URL}
+      API_URL: ${STRAPI_API_URL}
       NODE_ENV: ${NODE_ENV}
       CHOKIDAR_USEPOLLING: true
       VITE_BACKEND_URL: ${STRAPI_URL}

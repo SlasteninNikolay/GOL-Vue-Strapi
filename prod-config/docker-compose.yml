@@ -75,6 +75,7 @@ services:
         VITE_API_URL: ${STRAPI_API_URL}
         VITE_BACKEND_URL: ${STRAPI_URL}
         VITE_TOKEN: ${STRAPI_TOKEN}
+        VITE_UPLOAD_TOKEN: ${UPLOAD_TOKEN}
     # Для Portainer (убрать если используется .env)
     env_file:
       - stack.env
