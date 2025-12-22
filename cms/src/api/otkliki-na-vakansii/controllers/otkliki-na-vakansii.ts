@@ -143,7 +143,7 @@ async function sendEmailNotification(entry: any, strapi: any) {
             });
 
             if (file) {
-                const publicUrl = process.env.VITE_BACKEND_URL || 'http://localhost:1337';
+                const publicUrl = process.env.VITE_BACKEND_URL || 'https://cms.legenda-hotels.ru';
                 const fileUrl = file.url.startsWith('http')
                     ? file.url
                     : `${publicUrl}${file.url}`;
