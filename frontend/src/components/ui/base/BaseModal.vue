@@ -68,7 +68,7 @@ const props = defineProps({
   height: max-content;
   max-width: 480px;
   margin: 0;
-  padding: 1.6rem 1rem;
+  padding: 1rem 2rem;
   background-color: #fff;
   border-radius: 2px;
   transition: all 0.3s ease;

@@ -93,7 +93,7 @@ const handleFileChange = (event) => {
 
 const uploadFile = async (file) => {
   try {
-    console.log('🔼 Начинаем загрузку файла...');
+    console.log('🔼 Загружаем файл...');
 
     const formData = new FormData();
     formData.append('files', file);
@@ -140,9 +140,9 @@ const uploadFile = async (file) => {
   }
 };
 
-const createApplication = async (formData, fileId = null) => {
+const createVacancyApplication = async (formData, fileId = null) => {
   try {
-    console.log('📝 Создаем запись в БД...');
+    console.log('📝 Создаем запись о вакансии в БД...');
 
     const requestData = {
       data: {
@@ -171,7 +171,7 @@ const createApplication = async (formData, fileId = null) => {
       });
     }
 
-    console.log('📤 Отправляемые данные:', requestData);
+    console.log('📤 Отправляемые данные (вакансия):', requestData);
 
     const response = await axios.post(
       `${API_URL}/otkliki-na-vakansiis`,
@@ -184,11 +184,11 @@ const createApplication = async (formData, fileId = null) => {
       }
     );
 
-    console.log('✅ Запись создана:', response.data);
+    console.log('✅ Запись о вакансии создана:', response.data);
     return response.data;
 
   } catch (error) {
-    console.error('❌ Ошибка создания записи:', error);
+    console.error('❌ Ошибка создания записи о вакансии:', error);
 
     if (error.response?.data?.error?.details?.errors) {
       const validationErrors = error.response.data.error.details.errors;
@@ -196,7 +196,71 @@ const createApplication = async (formData, fileId = null) => {
       throw new Error(`Ошибка валидации: ${errorMessages}`);
     }
 
-    throw new Error('Ошибка при создании заявки. Попробуйте еще раз');
+    throw new Error('Ошибка при создании заявки на вакансию. Попробуйте еще раз');
+  }
+};
+
+const createFeedbackApplication = async (formData) => {
+  try {
+    console.log('📝 Создаем запись обратной связи в БД...');
+
+    const requestData = {
+      data: {
+        name: formData.user_name,
+        phone: formData.user_phone,
+        message: formData.user_message || '',
+        accept_terms: formData.accept_terms === true || formData.accept_terms === "true"
+      }
+    };
+
+    // Добавляем дополнительные поля для обратной связи
+    if (formData.user_city) {
+      requestData.data.city = formData.user_city;
+    }
+
+    if (formData.user_vacancy) {
+      requestData.data.vacancy = formData.user_vacancy;
+    }
+
+    // Добавляем скрытые поля
+    if (props.params?.hidden) {
+      props.params.hidden.forEach(hiddenField => {
+        if (hiddenField.value !== undefined && hiddenField.value !== null) {
+          requestData.data[hiddenField.name] = String(hiddenField.value);
+        }
+      });
+    }
+
+    // Добавляем дополнительные поля для отслеживания
+    requestData.data.page_url = window.location.href;
+    requestData.data.form_type = 'feedback';
+
+    console.log('📤 Отправляемые данные (обратная связь):', requestData);
+
+    const response = await axios.post(
+      `${API_URL}/form-submissions`, // Отдельный endpoint для обратной связи
+      requestData,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${TOKEN}`
+        }
+      }
+    );
+
+    console.log('✅ Запись обратной связи создана:', response.data);
+    return response.data;
+
+  } catch (error) {
+    console.error('❌ Ошибка создания записи обратной связи:', error);
+
+    if (error.response?.data?.error?.details?.errors) {
+      const validationErrors = error.response.data.error.details.errors;
+      const errorMessages = validationErrors.map(err => err.message).join(', ');
+      throw new Error(`Ошибка валидации: ${errorMessages}`);
+    }
+
+    throw new Error('Ошибка при отправке формы обратной связи. Попробуйте еще раз');
   }
 };
 
@@ -215,38 +279,49 @@ const onSubmit = async (values) => {
   }
 
   try {
-    let fileId = null;
+    let result;
 
-    // Шаг 1: Загружаем файл (если есть)
-    if (selectedFile.value) {
-      try {
-        fileId = await uploadFile(selectedFile.value);
-        console.log('✅ Файл успешно загружен, ID:', fileId);
-      } catch (uploadError) {
-        fileError.value = uploadError.message;
-        throw uploadError;
+    if (props.params.endpoint === 'vacancy') {
+      // 📌 ДЛЯ ВАКАНСИЙ
+      let fileId = null;
+
+      // Шаг 1: Загружаем файл (если есть)
+      if (selectedFile.value) {
+        try {
+          fileId = await uploadFile(selectedFile.value);
+          console.log('✅ Файл успешно загружен, ID:', fileId);
+        } catch (uploadError) {
+          fileError.value = uploadError.message;
+          throw uploadError;
+        }
+      }
+
+      // Шаг 2: Создаем запись с привязкой к файлу
+      result = await createVacancyApplication(values, fileId);
+
+      message.value = 'Ваше резюме успешно отправлено! Мы свяжемся с вами в ближайшее время.';
+
+      // Метрики для вакансий
+      if (window.gtag) {
+        window.gtag('event', 'vacancy_application', {
+          'event_category': 'engagement',
+          'event_label': values.user_vacancy || 'general'
+        });
+      }
+
+    } else {
+      // 📌 ДЛЯ ОБРАТНОЙ СВЯЗИ
+      result = await createFeedbackApplication(values);
+
+      message.value = 'Сообщение успешно отправлено! Спасибо за обращение.';
+
+      // Метрики для обратной связи
+      if (window.ym) {
+        window.ym(105125798, 'reachGoal', 'zayavka');
       }
     }
 
-    // Шаг 2: Создаем запись с привязкой к файлу
-    const result = await createApplication(values, fileId);
-
-    message.value = props.params.endpoint === 'vacancy'
-      ? 'Ваше резюме успешно отправлено! Мы свяжемся с вами в ближайшее время.'
-      : 'Сообщение успешно отправлено! Спасибо за обращение.';
     messageType.value = 'success';
-
-    // Метрики
-    if (window.ym && props.params.endpoint === 'feedback') {
-      window.ym(105125798, 'reachGoal', 'zayavka');
-    }
-
-    if (window.gtag && props.params.endpoint === 'vacancy') {
-      window.gtag('event', 'vacancy_application', {
-        'event_category': 'engagement',
-        'event_label': values.user_vacancy || 'general'
-      });
-    }
 
     // Очищаем форму
     if (formRef.value) {
@@ -305,6 +380,23 @@ const onSubmit = async (values) => {
         <span :class="['contact-form__message', { showed: errorMessage }]">{{ errorMessage }}</span>
       </Field>
     </div>
+
+    <template v-if="params?.endpoint === 'vacancy'">
+      <!-- Поля для вакансий -->
+      <div class="contact-form__group">
+        <Field readonly aria-readonly="true" name="user_city" class="contact-form__field" placeholder="Город" />
+        <ErrorMessage name="user_city" v-slot="{ message }">
+          <span :class="['contact-form__message', { showed: message }]">{{ message }}</span>
+        </ErrorMessage>
+      </div>
+      <div class="contact-form__group">
+        <Field readonly aria-readonly="true" name="user_vacancy" class="contact-form__field" placeholder="На какую вакансию?" />
+        <ErrorMessage name="user_vacancy" v-slot="{ message }">
+          <span :class="['contact-form__message', { showed: message }]">{{ message }}</span>
+        </ErrorMessage>
+      </div>
+    </template>
+
     <div v-if="params?.withMessage" class="contact-form__group">
       <Field
         as="textarea"
@@ -317,13 +409,15 @@ const onSubmit = async (values) => {
         <span :class="['contact-form__message', { showed: message }]">{{ message }}</span>
       </ErrorMessage>
     </div>
+
     <div v-if="params?.endpoint === 'vacancy'" class="contact-form__group">
       <label class="contact-form__file-label">
         <input
           type="file"
           @change="handleFileChange"
-          accept=".pdf,.doc,.docx"
+          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
           class="contact-form__file-input"
+          :disabled="loading"
         />
         <span class="contact-form__file-button">
           {{ selectedFile ? selectedFile.name : 'Прикрепить резюме *' }}
@@ -334,6 +428,7 @@ const onSubmit = async (values) => {
         {{ (selectedFile.size / 1024).toFixed(2) }} KB
       </span>
     </div>
+
     <div class="contact-form__group">
       <button
         class="contact-form__submit-button"
@@ -343,6 +438,7 @@ const onSubmit = async (values) => {
         {{ loading ? 'Отправка...' : 'Отправить' }}
       </button>
     </div>
+
     <div class="contact-form__group _flex">
       <label class="contact-form__label">
         <Field name="accept_terms" type="checkbox" value="true" class="contact-form__checkbox" />
@@ -371,6 +467,7 @@ const onSubmit = async (values) => {
   </Form>
 </template>
 
+<!-- Стили остаются без изменений -->
 <style scoped lang="scss">
 .contact-form {
   --formGap: #{fluid(36, 24)};
