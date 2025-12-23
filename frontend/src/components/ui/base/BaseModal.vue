@@ -13,8 +13,8 @@ const props = defineProps({
     <div v-if="show" class="modal-mask" :class="mode">
       <div class="modal-container">
         <div class="modal-header">
-          <slot name="header"></slot>
-          <BaseButton style="font-size: 1.4rem" mode="transparent" tag="button" @click="$emit('close')" label="&times;" aria-label="Закрыть" />
+          <slot class="modal-title" name="header"></slot>
+          <BaseButton class="modal-close-button" style="font-size: 1.4rem" mode="transparent" tag="button" @click="$emit('close')" label="&times;" aria-label="Закрыть" />
         </div>
 
         <div class="modal-body">
@@ -84,6 +84,10 @@ const props = defineProps({
   margin: 0;
   color: var(--color-primary);
   text-transform: uppercase;
+}
+
+.modal-close-button {
+  width: auto;
 }
 
 .modal-body {
