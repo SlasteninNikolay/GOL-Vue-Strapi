@@ -96,15 +96,23 @@ export default {
 .button {
   @include fluid-text(16, 14);
 
-  padding: fluid(12, 10) fluid(32, 24);
+  padding: fluid(18, 14) fluid(32, 24);
+  width: 100%;
+  max-width: 320px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: fluid(12, 5);
   line-height: 1;
   color: var(--color-white);
   border: none;
   background-color: var(--color-primary);
   cursor: pointer;
+  text-align: center;
+
+  @include mobile() {
+    max-width: 100%;
+  }
 
   @include hover(true) {
     background-color: var(--color-primary-50);

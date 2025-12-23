@@ -103,7 +103,7 @@ onMounted(async () => {
           <li class="accordion-navigation__list-item" :class="{active: 'all' === activeLocation}"><a href="#" @click="selectLocation('all')">Все вакансии</a></li>
           <li
             v-for="(city, index) in cities"
-            :key="city"
+            :key="city.id || index"
             class="accordion-navigation__list-item"
             :class="{active: city === activeLocation}"
           >
