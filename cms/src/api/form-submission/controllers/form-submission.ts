@@ -43,7 +43,7 @@ export default factories.createCoreController(
                                     <p><strong>📞 Телефон:</strong> <a href="tel:${phone}">${phone}</a></p>
                                     <p><strong>✉️ Сообщение:</strong> ${message ? message : '—'}</p>                        
                                     <p><strong>✅ Согласие с политикой:</strong> ${accept_terms ? 'Да' : 'Нет'}</p>
-                                    <p><strong>📅 Дата получения:</strong> ${new Date().toLocaleString('ru-RU')}</p>
+                                    <p><strong>📅 Дата получения:</strong> ${new Intl.DateTimeFormat('ru-RU', { timeZone: 'Europe/Moscow' }).format(new Date())}</p>
                                   </div>
                                   
                                   <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 6px;">

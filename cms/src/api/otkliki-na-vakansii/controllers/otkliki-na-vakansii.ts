@@ -208,7 +208,7 @@ async function sendEmailNotification(entry: any, strapi: any) {
             </div>
             ${resumeInfo}
             <div class="field">
-              <span class="field-label">📅 Дата:</span> ${new Date(entry.createdAt).toLocaleString('ru-RU')}
+              <span class="field-label">📅 Дата:</span> ${new Intl.DateTimeFormat('ru-RU', { timeZone: 'Europe/Moscow' }).format(new Date(entry.createdAt))}
             </div>
           </div>
           
