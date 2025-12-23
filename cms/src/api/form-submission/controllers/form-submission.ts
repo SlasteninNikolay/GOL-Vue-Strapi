@@ -30,7 +30,7 @@ export default factories.createCoreController(
                 if (process.env.SEND_EMAILS !== 'false') {
                     try {
                         await strapi.plugins['email'].services.email.send({
-                            to: process.env.SMTP_TO_ADMIN || 'slastenindev@gmail.com',
+                            to: process.env.SMTP_TO_MANAGER ? process.env.SMTP_TO_MANAGER.split(',').map(email => email.trim()) : ['slastenindev@gmail.com'],
                             from: process.env.SMTP_DEFAULT_FROM,
                             replyTo: process.env.SMTP_DEFAULT_REPLY_TO,
                             subject: '📋 Новая заявка с сайта LEGENDA Hotels',

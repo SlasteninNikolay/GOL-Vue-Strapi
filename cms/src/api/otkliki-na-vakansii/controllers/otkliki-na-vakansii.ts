@@ -4,7 +4,6 @@
 
 import { factories } from '@strapi/strapi';
 
-// Используем any для обхода строгих типов Strapi v5
 interface EntryData {
     name: string;
     phone: string;
@@ -34,11 +33,9 @@ export default factories.createCoreController(
                 let formData: any;
 
                 if (requestBody && typeof requestBody === 'object') {
-                    // Формат Strapi v4/v5: { data: {...} }
                     if (requestBody.data) {
                         formData = requestBody.data;
                     } else {
-                        // Прямой формат: {...}
                         formData = requestBody;
                     }
                 } else {
@@ -136,7 +133,6 @@ async function sendEmailNotification(entry: any, strapi: any) {
     try {
         let resumeInfo = '';
 
-        // Получаем информацию о файле если он привязан
         if (entry.resume?.id) {
             const file = await strapi.db.query('plugin::upload.file').findOne({
                 where: { id: entry.resume.id }
@@ -232,7 +228,7 @@ async function sendEmailNotification(entry: any, strapi: any) {
 
         // Отправляем email
         await strapi.plugin('email').service('email').send({
-            to: process.env.SMTP_TO_ADMIN || 'slastenindev@gmail.com',
+            to: process.env.SMTP_TO_HR ? process.env.SMTP_TO_HR.split(',').map(email => email.trim()) : ['slastenindev@gmail.com'],
             from: process.env.SMTP_DEFAULT_FROM || 'noreply@example.com',
             replyTo: process.env.SMTP_DEFAULT_REPLY_TO,
             subject: '📋 Отклик на вакансию с сайта LEGENDA Hotels',
