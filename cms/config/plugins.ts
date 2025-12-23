@@ -10,6 +10,7 @@ export default ({ env }) => ({
                     user: env('SMTP_USERNAME'),
                     pass: env('SMTP_PASSWORD'),
                 },
+                mimeTypes: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
                 requireTLS: env.bool('SMTP_REQUIRE_TLS', true),
                 ignoreTLS: env.bool('SMTP_IGNORE_TLS', false),
                 tls: {
