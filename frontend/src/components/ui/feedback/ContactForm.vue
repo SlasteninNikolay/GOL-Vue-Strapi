@@ -41,7 +41,7 @@ const schema = yup.object({
     .matches(/^(\+7|8)[\d\- ()]{10,}$/, 'Введите корректный номер телефона'),
   user_message: yup
     .string()
-    .max(3000, 'Слишком большое сообщение. Сократите текст.')
+    .max(2000, 'Слишком большое сообщение. Сократите текст.')
     .nullable(),
   user_city: yup.string().nullable(),
   user_vacancy: yup.string().nullable(),
@@ -383,6 +383,8 @@ const onSubmit = async (values) => {
         class="contact-form__field contact-form__textarea"
         placeholder="Ваше сообщение"
         rows="2"
+        minlength="3"
+        maxlength="2000"
       />
       <ErrorMessage name="user_message" v-slot="{ message }">
         <span :class="['contact-form__message', { showed: message }]">{{ message }}</span>
