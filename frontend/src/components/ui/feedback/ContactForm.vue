@@ -88,12 +88,10 @@ const handleFileChange = (event) => {
   }
 
   selectedFile.value = file;
-  console.log('📎 Файл выбран:', file.name, `(${(file.size / 1024).toFixed(2)} KB)`);
 };
 
 const uploadFile = async (file) => {
   try {
-    console.log('🔼 Загружаем файл...');
 
     const formData = new FormData();
     formData.append('files', file);
@@ -118,8 +116,6 @@ const uploadFile = async (file) => {
 
     if (response.data && response.data.length > 0) {
       const uploadedFile = response.data[0];
-      console.log('✅ Файл загружен:', uploadedFile);
-      console.log('📌 ID файла:', uploadedFile.id);
       return uploadedFile.id;
     }
 
@@ -142,7 +138,6 @@ const uploadFile = async (file) => {
 
 const createVacancyApplication = async (formData, fileId = null) => {
   try {
-    console.log('📝 Создаем запись о вакансии в БД...');
 
     const requestData = {
       data: {
@@ -171,8 +166,6 @@ const createVacancyApplication = async (formData, fileId = null) => {
       });
     }
 
-    console.log('📤 Отправляемые данные (вакансия):', requestData);
-
     const response = await axios.post(
       `${API_URL}/otkliki-na-vakansiis`,
       requestData,
@@ -184,7 +177,6 @@ const createVacancyApplication = async (formData, fileId = null) => {
       }
     );
 
-    console.log('✅ Запись о вакансии создана:', response.data);
     return response.data;
 
   } catch (error) {
@@ -202,7 +194,6 @@ const createVacancyApplication = async (formData, fileId = null) => {
 
 const createFeedbackApplication = async (formData) => {
   try {
-    console.log('📝 Создаем запись обратной связи в БД...');
 
     const requestData = {
       data: {
@@ -231,14 +222,11 @@ const createFeedbackApplication = async (formData) => {
       });
     }
 
-    // Добавляем дополнительные поля для отслеживания
     requestData.data.page_url = window.location.href;
     requestData.data.form_type = 'feedback';
 
-    console.log('📤 Отправляемые данные (обратная связь):', requestData);
-
     const response = await axios.post(
-      `${API_URL}/form-submissions`, // Отдельный endpoint для обратной связи
+      `${API_URL}/form-submissions`,
       requestData,
       {
         headers: {
@@ -248,7 +236,6 @@ const createFeedbackApplication = async (formData) => {
       }
     );
 
-    console.log('✅ Запись обратной связи создана:', response.data);
     return response.data;
 
   } catch (error) {
@@ -271,7 +258,6 @@ const onSubmit = async (values) => {
   fileError.value = '';
   uploadProgress.value = 0;
 
-  // Проверяем наличие файла для вакансий
   if (props.params.endpoint === 'vacancy' && !selectedFile.value) {
     fileError.value = 'Необходимо прикрепить резюме';
     loading.value = false;
@@ -282,21 +268,17 @@ const onSubmit = async (values) => {
     let result;
 
     if (props.params.endpoint === 'vacancy') {
-      // 📌 ДЛЯ ВАКАНСИЙ
       let fileId = null;
 
-      // Шаг 1: Загружаем файл (если есть)
       if (selectedFile.value) {
         try {
           fileId = await uploadFile(selectedFile.value);
-          console.log('✅ Файл успешно загружен, ID:', fileId);
         } catch (uploadError) {
           fileError.value = uploadError.message;
           throw uploadError;
         }
       }
 
-      // Шаг 2: Создаем запись с привязкой к файлу
       result = await createVacancyApplication(values, fileId);
 
       message.value = 'Ваше резюме успешно отправлено! Мы свяжемся с вами в ближайшее время.';
@@ -310,7 +292,6 @@ const onSubmit = async (values) => {
       }
 
     } else {
-      // 📌 ДЛЯ ОБРАТНОЙ СВЯЗИ
       result = await createFeedbackApplication(values);
 
       message.value = 'Сообщение успешно отправлено! Спасибо за обращение.';
