@@ -324,7 +324,6 @@ const onSubmit = async (values) => {
     // Форматируем сообщение об ошибке
     let errorMessage = error.message || 'Ошибка при отправке. Попробуйте еще раз.';
 
-    // Убираем технические детали для пользователя
     if (errorMessage.includes('Network Error')) {
       errorMessage = 'Проблема с интернет-соединением. Проверьте подключение.';
     } else if (errorMessage.includes('timeout')) {
@@ -363,7 +362,6 @@ const onSubmit = async (values) => {
     </div>
 
     <template v-if="params?.endpoint === 'vacancy'">
-      <!-- Поля для вакансий -->
       <div class="contact-form__group">
         <Field readonly aria-readonly="true" name="user_city" class="contact-form__field" placeholder="Город" />
         <ErrorMessage name="user_city" v-slot="{ message }">
@@ -378,13 +376,13 @@ const onSubmit = async (values) => {
       </div>
     </template>
 
-    <div v-if="params?.withMessage" class="contact-form__group">
+    <div v-if="props.params.withMessage" class="contact-form__group">
       <Field
         as="textarea"
         name="user_message"
-        class="contact-form__field"
+        class="contact-form__field contact-form__textarea"
         placeholder="Ваше сообщение"
-        rows="4"
+        rows="2"
       />
       <ErrorMessage name="user_message" v-slot="{ message }">
         <span :class="['contact-form__message', { showed: message }]">{{ message }}</span>
@@ -430,7 +428,6 @@ const onSubmit = async (values) => {
       </ErrorMessage>
     </div>
 
-    <!-- Скрытые поля -->
     <div style="display:contents" v-if="Array.isArray(params?.hidden)">
       <Field
         v-for="field in params.hidden"
@@ -441,14 +438,12 @@ const onSubmit = async (values) => {
       />
     </div>
 
-    <!-- Сообщение об успехе/ошибке -->
     <div v-if="message" :class="['contact-form__status', messageType]">
       {{ message }}
     </div>
   </Form>
 </template>
 
-<!-- Стили остаются без изменений -->
 <style scoped lang="scss">
 .contact-form {
   --formGap: #{fluid(36, 24)};
@@ -511,6 +506,10 @@ const onSubmit = async (values) => {
     &::placeholder {
       color: var(--color-gray-65);
     }
+  }
+
+  &__textarea {
+    resize: none;
   }
 
   &__message {

@@ -12,7 +12,7 @@ import ContactForm from '@/components/ui/feedback/ContactForm.vue'
          <h3 class="feedback-section__subtitle">Пожалуйста, заполните форму обратной связи. Наши менеджеры свяжутся с вами в ближайшее время, проконсультируют и ответят на интересующие вас вопросы.</h3>
        </div>
        <div class="feedback-section__col">
-         <ContactForm :params="{endpoint: 'feedback'}" />
+         <ContactForm :params="{endpoint: 'feedback', withMessage: true}" />
        </div>
      </BaseGrid>
    </div>
