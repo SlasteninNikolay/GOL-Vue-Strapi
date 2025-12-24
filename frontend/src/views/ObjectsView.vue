@@ -132,6 +132,23 @@ watch([region, selectedCategory], () => {
 onMounted(async () => {
   await fetchData()
 })
+
+// Следим за изменением query-параметра category
+watch(
+  () => route.query.category,
+  (newCategory) => {
+    if (categories.value.length) {
+      const foundCategory = categories.value.find(
+        cat => String(cat.id) === String(newCategory)
+      )
+      if (foundCategory) {
+        selectedCategory.value = foundCategory.id
+      } else {
+        selectedCategory.value = null
+      }
+    }
+  }
+)
 </script>
 
 <template>
