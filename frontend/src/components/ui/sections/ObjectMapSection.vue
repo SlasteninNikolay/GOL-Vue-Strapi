@@ -42,30 +42,30 @@ const categories = [
   // Нижние категории
   {
     id: 4,
-    categoryId: 10,
+    categoryId: 21,
     title: 'Горнолыжные курорты',
     slug: 'ski',
-    link: '/objects?category=10',
+    link: '/objects?category=21',
     icon: "ski",
     x: 360,
     y: 385
   },
   {
     id: 5,
-    categoryId: 12,
+    categoryId: 22,
     title: 'Санатории',
     slug: 'sanatorium',
-    link: '/objects?category=12',
+    link: '/objects?category=22',
     icon: "sanatorium",
     x: 910,
     y: 385
   },
   {
     id: 6,
-    categoryId: 14,
+    categoryId: 23,
     title: 'Другое',
     slug: 'other',
-    link: '/objects?category=14',
+    link: '/objects?category=23',
     icon: "others",
     x: 1420,
     y: 385
