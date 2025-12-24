@@ -11,30 +11,30 @@ const svgRef = ref(null)
 const categories = [
   {
     id: 1,
-    categoryId: 5,
+    categoryId: 18,
     title: 'Отели 3*',
     slug: 'hotels-3',
-    link: '/objects?category=5',
+    link: '/objects?category=18',
     icon: "hotels-3",
     x: 430,
     y: 80
   },
   {
     id: 2,
-    categoryId: 6,
+    categoryId: 19,
     title: 'Отели 4*',
     slug: 'hotels-4',
-    link: '/objects?category=6',
+    link: '/objects?category=19',
     icon: "hotels-4",
     x: 930,
     y: 80
   },
   {
     id: 3,
-    categoryId: 8,
+    categoryId: 20,
     title: 'Рестораны',
     slug: 'restaurants',
-    link: '/objects?category=8',
+    link: '/objects?category=20',
     icon: "restaurants",
     x: 1410,
     y: 80
