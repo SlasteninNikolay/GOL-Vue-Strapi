@@ -334,6 +334,7 @@ watch(
 
   &__reset-button {
     height: 100%;
+    width: auto;
     padding-inline: 10px;
     position: absolute;
     top: 50%;

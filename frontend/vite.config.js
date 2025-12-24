@@ -64,10 +64,7 @@ export default defineConfig({
     },
   },
   server: {
-    host: true, // Разрешить подключения с любых хостов
     allowedHosts: [
-      'legenda-dev.ru',
-      'www.legenda-dev.ru',
       'localhost',
       'www.legenda-hotels.ru"',
       'legenda-hotels.ru"'
