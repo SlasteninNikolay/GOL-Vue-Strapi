@@ -258,6 +258,7 @@ onMounted(async () => {
         <div>{{ objectData?.location ?? '' }}</div>
         <div>
           <BaseButton
+            v-if="objectData?.pdf"
             :href="objectData?.pdf ?? ''"
             label="Скачать презентацию"
             mode="transparent"

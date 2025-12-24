@@ -64,10 +64,11 @@ export default defineConfig({
     },
   },
   server: {
+    host: true,
     allowedHosts: [
       'localhost',
-      'www.legenda-hotels.ru"',
-      'legenda-hotels.ru"'
+      'www.legenda-hotels.ru',
+      'legenda-hotels.ru'
     ]
   },
   // Для продакшен сборки
