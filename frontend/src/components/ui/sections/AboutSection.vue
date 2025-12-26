@@ -22,7 +22,7 @@ import BaseButton from '@/components/ui/base/BaseButton.vue'
               <span class="company-features__subtitle">регионов</span>
             </li>
             <li class="company-features__item">
-              <span class="company-features__title h2">20</span>
+              <span class="company-features__title h2">28</span>
               <span class="company-features__subtitle">объектов</span>
             </li>
             <li class="company-features__item">
