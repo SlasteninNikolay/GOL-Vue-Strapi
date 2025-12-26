@@ -65,6 +65,7 @@ defineProps({
           mode="transparent"
           icon-name="arrow-next"
           icon-color="#244c60"
+          class="card__links-btn"
         />
       </div>
     </div>
@@ -89,10 +90,8 @@ defineProps({
     position: relative;
   }
 
-  &__links {
-    button {
-      width: auto;
-    }
+  &__links-btn {
+    width: auto;
   }
 
   &__figure-image {
