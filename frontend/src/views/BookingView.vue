@@ -1,25 +1,114 @@
-<script setup>
-
-</script>
-
 <template>
-  <div class="booking-section container">
-    <!-- start TL Booking form script -->
-    <div id="tl-booking-form"></div>
-    <!-- end TL Booking form script -->
-  </div>
+  <section>
+    <div class="container">
+      <!-- start TL Booking form script -->
+      <div id="tl-booking-form"></div>
+      <!-- end TL Booking form script -->
+    </div>
+  </section>
 </template>
 
-<style scoped lang="scss">
+<script setup>
+import { onMounted } from 'vue';
+
+onMounted(() => {
+  // Весь оригинальный скрипт оставляем как есть
+  (function(w) {
+    var q = [
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28", "ru"],
+      ["embed", "booking-form", {
+        container: "tl-booking-form"
+      }],
+      ["embed", "search-form", {
+        container: "tl-search-form"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.4167", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-4167"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.34500", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-34500"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.5163", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-5163"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.4508", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-4508"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.45493", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-45493"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.1530", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-1530"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.1512", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-1512"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.1533", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-1533"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.1527", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-1527"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.6316", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-6316"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.888", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-888"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.122", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-122"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.1442", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-1442"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.406", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-406"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.1532", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-1532"
+      }],
+      ["setContext", "TL-INT-legenda-hotels-ru_2025-10-28.2964", "ru"],
+      ["embed", "search-form", {
+        container: "tl-search-form-2964"
+      }]
+    ];
+    var h = ["ru-ibe.tlintegration.ru", "ibe.tlintegration.ru", "ibe.tlintegration.com"];
+    var t = w.travelline = (w.travelline || {}),
+      ti = t.integration = (t.integration || {});
+    ti.__cq = ti.__cq? ti.__cq.concat(q) : q;
+    if (!ti.__loader) {
+      ti.__loader = true;
+      var d=w.document,c=d.getElementsByTagName("head")[0]||d.getElementsByTagName("body")[0];
+      function e(s,f) {return function() {w.TL||(c.removeChild(s),f())}}
+      (function l(h) {
+        if (0===h.length) return; var s=d.createElement("script");
+        s.type="text/javascript";s.async=!0;s.src="https://"+h[0]+"/integration/loader.js";
+        s.onerror=s.onload=e(s,function(){l(h.slice(1,h.length))});c.appendChild(s)
+      })(h);
+    }
+  })(window)});
+</script>
+
+<style scoped>
 #tl-booking-form {
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
+  padding-block: 4rem;
 }
-
-.booking-section {
-  padding-top: 30px;
-}
-
 </style>
-

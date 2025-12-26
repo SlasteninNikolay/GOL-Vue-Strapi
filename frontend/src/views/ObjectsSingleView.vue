@@ -22,6 +22,7 @@ import {
   YandexMapZoomControl,
   YandexMapScaleControl,
 } from 'vue-yandex-maps'
+import TravellineSearchForm from '@/components/features/TravellineSearchForm.vue'
 
 const customization = shallowRef([
   {
@@ -153,7 +154,6 @@ const fetchObjectBySlug = async (slug) => {
   }
 }
 
-// Инициализация Travelline для страницы объекта
 const initTravelline = () => {
   const travellineId = objectData.value?.travelline_id
 
@@ -276,13 +276,7 @@ onMounted(async () => {
           :src="objectData?.video_url"
           :poster="objectData?.video_poster"
         />
-
-        <!-- Форма Travelline для объектов с travelline_id -->
-        <div v-if="objectData?.travelline_id" class="video-section__booking">
-          <div :id="`tl-search-form-${objectData.travelline_id}`" class="tl-container">
-            <a href="https://www.travelline.ru/products/tl-hotel/" rel="nofollow" target="_blank">TravelLine</a>
-          </div>
-        </div>
+        <travelline-search-form class="travelline-search-form" :travelline-id="objectData?.travelline_id" />
       </div>
     </section>
     <AppSection class="bio-section _pattern" :title="objectData?.slogan">
@@ -301,7 +295,7 @@ onMounted(async () => {
           </div>
           <div class="bio-section__content" v-html="htmlDescription"></div>
           <div class="bio-section__buttons">
-            <BaseButton v-if="objectData?.type !== 'Ресторан'" :href="`${objectData?.website}/booking`" label="Найти номер" />
+            <BaseButton v-if="objectData?.type !== 'Ресторан'" :href="`/booking?hotel_id=${objectData?.travelline_id}`" label="Найти номер" />
             <BaseButton
               :href="objectData?.website"
               label="Сайт объекта"
@@ -451,8 +445,21 @@ onMounted(async () => {
   box-sizing: border-box;
 }
 
+.block-search {
+  bottom: 40px;
+}
+
 .tl-container {
   padding: 0 30px;
+}
+
+.travelline-search-form {
+  z-index: 2;
+  max-width: 1340px;
+
+  @include mobile() {
+    display: none;
+  }
 }
 
 :deep(.section__header) {

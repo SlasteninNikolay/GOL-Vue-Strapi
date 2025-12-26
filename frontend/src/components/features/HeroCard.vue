@@ -1,5 +1,6 @@
 <script setup>
 import { BACKEND_URL } from '@/utils/constants.js'
+import TravellineSearchForm from '@/components/features/TravellineSearchForm.vue'
 
 defineProps({
   image: [String, Object],
@@ -32,18 +33,23 @@ defineProps({
       </div>
       <div class="hero-card__subtitle h4">{{ subtitle }}</div>
       <RouterLink :to="`/objects/${slug}`" class="hero-card__more">Подробнее</RouterLink>
-      
-      <!-- Форма Travelline для объектов, которые в ней заведены -->
-      <div v-if="travellineId" id="block-search" class="hero-card__booking">
-        <div :id="`tl-search-form-${travellineId}`" class="tl-container">
-          <a href="https://www.travelline.ru/products/tl-hotel/" rel="nofollow" target="_blank">TravelLine</a>
-        </div>
-      </div>
+
+      <travelline-search-form class="travelline-search-form" :travelline-id="travellineId" />
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
+.travelline-search-form {
+  display: block;
+}
+
+.travelline-search-form {
+  @include tablet() {
+    display: none;
+  }
+}
+
 #block-search,
 #block-search * {
   box-sizing: border-box;
@@ -62,10 +68,12 @@ defineProps({
 
   &__content {
     width: 100%;
+    height: 100%;
+    padding-top: fluid(80, 40);
     position: absolute;
-    top: fluid-to-laptop(140, 80);
+    top: 0;
     left: 50%;
-    translate: -50% -50%;
+    translate: -50% 0%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -73,7 +81,10 @@ defineProps({
     z-index: 2;
 
     @include tablet() {
+      padding-top: 0;
       top: 50%;
+      transform: translateY(-50%);
+      justify-content: center;
     }
   }
 

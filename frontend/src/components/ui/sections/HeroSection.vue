@@ -34,51 +34,16 @@ const fetchData = async () => {
   }
 }
 
-// Инициализация Travelline для динамически созданных элементов
-const initTravelline = () => {
-  if (window.travelline && window.travelline.integration) {
-    const ti = window.travelline.integration
-    
-    bannerData.value.forEach((slide) => {
-      const travellineId = slide.object?.travelline_id
-      
-      if (travellineId) {
-        const containerId = `tl-search-form-${travellineId}`
-        const element = document.getElementById(containerId)
-        
-        if (element && !element.classList.contains('tl-initialized')) {
-          try {
-            if (!ti.__cq) ti.__cq = []
-            
-            ti.__cq.push(["setContext", `TL-INT-legenda-hotels-ru_2025-10-28.${travellineId}`, "ru"])
-            ti.__cq.push(["embed", "search-form", { container: containerId }])
-            
-            if (window.TL && window.TL.integration) {
-              window.TL.integration.run()
-            } else if (ti.run) {
-              ti.run()
-            }
-            
-            element.classList.add('tl-initialized')
-          } catch (error) {
-            console.warn(`Ошибка инициализации Travelline для объекта ${travellineId}:`, error)
-          }
-        }
-      }
-    })
-  }
-}
-
 const swiperOptions = {
   modules: [Pagination, Autoplay, EffectFade, Navigation, Manipulation],
   slidesPerView: 1,
   spaceBetween: 0,
   effect: 'fade',
   fadeEffect: { crossFade: true },
-  autoplay: {
-    delay: 5000,
-    disableOnInteraction: false
-  },
+  // autoplay: {
+  //   delay: 5000,
+  //   disableOnInteraction: false
+  // },
   navigation: {
     enabled: true,
     prevEl: '.arrow-prev',
@@ -88,26 +53,17 @@ const swiperOptions = {
     el: '.hero-slider__pagination',
     clickable: true
   },
-  on: {
-    slideChange: () => {
-      // Инициализируем Travelline при смене слайда
-      setTimeout(() => {
-        initTravelline()
-      }, 100)
-    }
-  }
+  // on: {
+  //   slideChange: () => {
+  //     setTimeout(() => {
+  //       initTravelline()
+  //     }, 100)
+  //   }
+  // }
 }
 
 onMounted(async () => {
   await fetchData()
-  
-  // Ждем отрисовки DOM и инициализируем Travelline
-  await nextTick()
-  
-  // Задержка для полной загрузки скрипта Travelline
-  setTimeout(() => {
-    initTravelline()
-  }, 500)
 })
 </script>
 
@@ -140,11 +96,7 @@ onMounted(async () => {
         >
           <BaseIcon name="arrow-prev" />
         </button>
-        <!-- <div id="block-search">
-          <div id="tl-search-form" class="tl-container">
-            <a href="https://www.travelline.ru/products/tl-hotel/" rel="nofollow" target="_blank">TravelLine</a>
-          </div>
-        </div> -->
+
         <button
           class="hero-slider__nav-btn hero-slider__nav-btn--next arrow-next"
         >
@@ -152,6 +104,9 @@ onMounted(async () => {
         </button>
       </div>
     </Swiper>
+    <a href="/booking" class="booking-mobile-button">
+      Найти номер
+    </a>
   </section>
 </template>
 
@@ -164,6 +119,19 @@ onMounted(async () => {
 #block-search {
   width: 100%;
   pointer-events: all;
+}
+
+.booking-mobile-button {
+  width: 100%;
+  padding: 0.5rem;
+  text-align: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: var(--color-white);
+
+  @include tablet-above() {
+    display: none;
+  }
 }
 
 .tl-container {
