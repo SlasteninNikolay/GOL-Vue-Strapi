@@ -30,7 +30,6 @@ const containerRef = ref()
 const containerId = `tl-search-form-${Math.random().toString(36).substr(2, 9)}`
 
 const initTravelLine = () => {
-  console.log('🚀 Direct DOM TravelLine:', containerId);
 
   if (!containerRef.value) {
     setTimeout(initTravelLine, 100);
@@ -79,15 +78,6 @@ const initTravelLine = () => {
 
   document.head.appendChild(script);
 
-  // Проверяем результат
-  setTimeout(() => {
-    if (container.querySelector('.tl-widget')) {
-      console.log('✅ TravelLine widget loaded successfully!');
-    } else {
-      console.log('⚠️ Checking container...');
-      console.log('Container HTML:', container.innerHTML.substring(0, 300));
-    }
-  }, 2000);
 }
 
 const cleanup = () => {
