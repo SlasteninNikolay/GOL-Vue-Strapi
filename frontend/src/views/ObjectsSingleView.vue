@@ -276,7 +276,7 @@ onMounted(async () => {
           :src="objectData?.video_url"
           :poster="objectData?.video_poster"
         />
-        <travelline-search-form class="travelline-search-form" :travelline-id="objectData?.travelline_id" />
+        <travelline-search-form v-if="objectData?.travelline_id" class="travelline-search-form" :travelline-id="objectData?.travelline_id" />
       </div>
     </section>
     <AppSection class="bio-section _pattern" :title="objectData?.slogan">

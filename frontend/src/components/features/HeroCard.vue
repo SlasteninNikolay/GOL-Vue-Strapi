@@ -34,7 +34,7 @@ defineProps({
       <div class="hero-card__subtitle h4">{{ subtitle }}</div>
       <RouterLink :to="`/objects/${slug}`" class="hero-card__more">Подробнее</RouterLink>
 
-      <travelline-search-form class="travelline-search-form" :travelline-id="travellineId" />
+      <travelline-search-form v-if="travellineId" class="travelline-search-form" :travelline-id="travellineId" />
     </div>
   </div>
 </template>
