@@ -7,24 +7,18 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    return new Promise((resolve) => {
-      // Ждем окончания анимации перехода (650ms + небольшой запас)
-      setTimeout(() => {
-        if (savedPosition) {
-          // Восстанавливаем сохраненную позицию при навигации назад/вперед
-          resolve(savedPosition)
-        } else if (to.hash) {
-          // Скроллим к якорю, если указан hash
-          resolve({
-            el: to.hash,
-            behavior: 'smooth',
-          })
-        } else {
-          // Всегда скроллим наверх при обычной навигации
-          resolve({ top: 0, left: 0, behavior: 'instant' })
-        }
-      }, 700)
-    })
+
+    if (savedPosition) {
+      return savedPosition
+    } else if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth',
+        top: 20,
+      }
+    } else {
+      return { top: 0, left: 0 }
+    }
   },
   linkActiveClass: 'router-link-active',
   linkExactActiveClass: 'router-link-exact-active',
@@ -35,17 +29,40 @@ router.beforeEach(async (to, from, next) => {
   next()
 })
 
-router.afterEach((to) => {
+router.afterEach((to, from) => {
+
+  if (to.name !== from.name || to.fullPath !== from.fullPath) {
+    endTransition()
+  }
+
   if (to.name === 'not-found') {
     set404Status()
   }
-  endTransition()
+
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
 })
 
 router.onError((error) => {
   console.error('Router error:', error)
+  endTransition()
+
   if (error.message.includes('Failed to fetch dynamically imported module')) {
-    window.location.reload()
+
+    if (!window.location.search.includes('reloaded=true')) {
+      window.location.search = '?reloaded=true'
+    } else {
+      window.location.href = '/error'
+    }
+  }
+})
+
+router.beforeResolve((to, from, next) => {
+  if (to.matched.length === 0) {
+    next({ name: 'not-found' })
+  } else {
+    next()
   }
 })
 
