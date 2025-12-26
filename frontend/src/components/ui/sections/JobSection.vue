@@ -47,6 +47,7 @@ const wordsArray = ['коллега', 'друг', 'амбассадор']
     &__link {
       @include fluid-text(16, 14);
       font-weight: 500;
+      justify-content: flex-start;
     }
   }
 </style>

@@ -89,6 +89,12 @@ defineProps({
     position: relative;
   }
 
+  &__links {
+    button {
+      width: auto;
+    }
+  }
+
   &__figure-image {
     width: 100%;
     height: 100%;
