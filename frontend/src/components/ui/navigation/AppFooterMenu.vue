@@ -43,9 +43,9 @@ import BaseGrid from '@/components/ui/base/BaseGrid.vue'
         Информация
       </h4>
       <ul class="footer-menu__list">
+        <li class="footer-menu__list-item"><RouterLink class="link" to="/pages/politika-konfidencialnosti">Политика конфиденциальности</RouterLink></li>
         <li class="footer-menu__list-item"><RouterLink class="link" to="/pages/polzovatelskoe-soglashenie">Пользовательское соглашение</RouterLink></li>
         <li class="footer-menu__list-item"><RouterLink class="link" to="/loyalty-program">Программа лояльности</RouterLink></li>
-        <li class="footer-menu__list-item"><RouterLink class="link" to="/pages/politika-konfidencialnosti">Политика конфиденциальности</RouterLink></li>
       </ul>
     </div>
   </BaseGrid>

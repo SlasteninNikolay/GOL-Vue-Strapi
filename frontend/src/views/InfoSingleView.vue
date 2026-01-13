@@ -1,13 +1,12 @@
 <script setup>
 import axios from 'axios'
 import { API_URL, TOKEN } from '@/utils/constants.js'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import AppSection from '@/components/ui/layout/AppSection.vue'
 import { richTextToHtml } from '@/utils/helpers.js'
 
 const route = useRoute()
-const slug = route.params.slug
 
 const loading = ref(false)
 const error = ref('')
@@ -17,6 +16,7 @@ const htmlPageContent = computed(() => richTextToHtml(pageData.value?.content))
 
 const fetchPage = async (slug) => {
   loading.value = true
+  pageData.value = null
 
   try {
     const request = await axios.get(`${API_URL}/pages?filters[slug][$eq]=${slug}&populate=*`, {
@@ -33,7 +33,21 @@ const fetchPage = async (slug) => {
 }
 
 onMounted(async () => {
-  await fetchPage(slug)
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur()
+  }
+  window.scrollTo(0, 0)
+  await fetchPage(route.params.slug)
+})
+
+watch(() => route.params.slug, async (slug) => {
+  if (slug) {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur()
+    }
+    window.scrollTo(0, 0)
+    await fetchPage(slug)
+  }
 })
 
 </script>
