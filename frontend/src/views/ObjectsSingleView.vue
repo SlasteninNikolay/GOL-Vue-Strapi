@@ -295,7 +295,11 @@ onMounted(async () => {
           </div>
           <div class="bio-section__content" v-html="htmlDescription"></div>
           <div class="bio-section__buttons">
-            <BaseButton v-if="objectData?.type !== 'Ресторан'" :href="`/booking?hotel_id=${objectData?.travelline_id}`" label="Найти номер" />
+            <BaseButton
+              v-if="!['Ресторан', 'Туристический оператор'].includes(objectData?.type) && objectData?.travelline_id"
+              :href="`/booking?hotel_id=${objectData.travelline_id}`"
+              label="Найти номер"
+            />
             <BaseButton
               :href="objectData?.website"
               label="Сайт объекта"

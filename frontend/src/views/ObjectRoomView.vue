@@ -90,7 +90,7 @@ onMounted(async () => {
             >
               <div class="bio-section__gallery-item-overlay">
                 <BaseIcon name="zoom" color="#FFF" />
-                <div v-if="imgsRef.length >= 3">+{{ Math.abs(imgsRef.length - 3) }} фото</div>
+                <div v-if="imgsRef.length > 3">+{{ Math.abs(imgsRef.length - 3) }} фото</div>
               </div>
               <picture>
                 <source
