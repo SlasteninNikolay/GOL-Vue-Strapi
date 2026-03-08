@@ -6,7 +6,7 @@ services:
       context: ../cms
       dockerfile: ../prod-config/Dockerfile.cms
     volumes:
-      - ../cms/public/uploads:/usr/app/public/uploads
+      - ../cms/public:/usr/app/public
       - ../cms/.tmp:/usr/app/.tmp
     restart: unless-stopped
     networks:
