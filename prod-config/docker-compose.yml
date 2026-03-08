@@ -6,8 +6,8 @@ services:
       context: ../cms
       dockerfile: ../prod-config/Dockerfile.cms
     volumes:
-      - ../cms/public:/usr/app/public
-      - ../cms/.tmp:/usr/app/.tmp
+      - strapi_data:/usr/app/public
+      - strapi_db:/usr/app/.tmp
     restart: unless-stopped
     networks:
       - golnet
@@ -86,3 +86,7 @@ services:
 networks:
   golnet:
     driver: bridge
+
+volumes:
+  strapi_db:
+  strapi_data:
