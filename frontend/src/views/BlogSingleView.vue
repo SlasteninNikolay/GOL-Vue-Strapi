@@ -51,6 +51,12 @@ const fetchArticle = async () => {
         headers: { Authorization: `Bearer ${TOKEN}` },
       }
     )
+
+    if (!response.data.data || response.data.data.length === 0) {
+      await router.push({ name: 'not-found' })
+      return
+    }
+
     article.value = response.data.data[0]
 
     // Подготавливаем изображения для слайдера

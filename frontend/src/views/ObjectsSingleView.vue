@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted, ref, shallowRef, watch, nextTick } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useHead } from '@vueuse/head'
 import axios from 'axios'
 
@@ -73,6 +73,7 @@ const customization = shallowRef([
 ])
 
 const route = useRoute()
+const router = useRouter()
 const slug = route.params.slug
 
 const objectData = ref(null)
@@ -122,6 +123,12 @@ const fetchObjectBySlug = async (slug) => {
     const objects = await axios.get(`${API_URL}/objects?filters[slug][$eq]=${slug}&populate=*`, {
       headers: { Authorization: `Bearer ${TOKEN}` },
     })
+
+    if (!objects.data.data || objects.data.data.length === 0) {
+      await router.push({ name: 'not-found' })
+      return
+    }
+
     const features = await axios.get(
       `${API_URL}/objects?filters[slug][$eq]=${slug}&populate[features][populate]=icon`,
       {
@@ -372,7 +379,7 @@ onMounted(async () => {
       <BaseGrid columns="4">
         <BaseCard
           class="rooms-section__card"
-          v-for="room in roomsData.slice(0, showCount)"
+          v-for="room in roomsData.slice(0, someCount)"
           :key="room.id"
           :img="room?.photos[0]"
           :title="room?.title"

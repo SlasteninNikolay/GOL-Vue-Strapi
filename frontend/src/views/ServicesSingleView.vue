@@ -67,7 +67,7 @@ const fetchService = async () => {
         await fetchRelatedServices()
       }
     } else {
-      error.value = 'Услуга не найдена'
+      await router.push({ name: 'not-found' })
     }
   } catch (e) {
     error.value = e

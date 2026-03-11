@@ -2,11 +2,12 @@
 import axios from 'axios'
 import { API_URL, TOKEN } from '@/utils/constants.js'
 import { computed, onMounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import AppSection from '@/components/ui/layout/AppSection.vue'
 import { richTextToHtml } from '@/utils/helpers.js'
 
 const route = useRoute()
+const router = useRouter()
 
 const loading = ref(false)
 const error = ref('')
@@ -22,6 +23,11 @@ const fetchPage = async (slug) => {
     const request = await axios.get(`${API_URL}/pages?filters[slug][$eq]=${slug}&populate=*`, {
       headers: { Authorization: `Bearer ${TOKEN}` },
     })
+
+    if (!request.data.data || request.data.data.length === 0) {
+      await router.push({ name: 'not-found' })
+      return
+    }
 
     pageData.value = request.data.data[0] || null
 
